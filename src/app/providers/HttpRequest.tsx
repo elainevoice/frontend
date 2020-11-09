@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export function useAxiosGet(url) {
+export function useAxiosGet(url: any) {
     console.log('xd' + url)
     if (url == "") {
         return {
