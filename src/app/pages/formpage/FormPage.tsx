@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import { BiMicrophone, BiMicrophoneOff } from "react-icons/bi";
 
 import "./FormPage.scss";
 
@@ -18,30 +22,29 @@ export default class FormPage extends Component<{}, {}> {
                 </div>
                 {/* ./Test */}
 
-                <div className="audiobar">
-                    <div className="middle">
-                        <h1>
-                            00:16
-                        </h1>
-                    </div>
-                    {/* <div className="right">                        
-                        <Button variant="dark">Play?</Button>
-                    </div> */}
-                </div>
-
+                <Row className="justify-content-md-center">
+                    <Button variant="link">
+                        <BsFillPlayFill/>
+                    </Button>
+                    <h1>00:16</h1>
+                </Row>
                 <Form>
-                    <div className="group">
-                        <div className="left">
+                    <Row>
+                        <Col>
                             <Form.Group>
                                 <Form.Label>Input</Form.Label>
                                 <Form.Control as="textarea" rows={3}/>
                             </Form.Group>
-                        </div>
-                        <div className="right">
-                            <Button variant="outline-dark" type="submit">Mick</Button>
-                            <Button variant="outline-dark" type="submit">A-Z</Button>
-                        </div>
-                    </div>
+                        </Col>
+                        <Col>
+                            <Button variant="link">
+                                <BiMicrophone/>
+                            </Button>
+                            <Button variant="link">
+                                a-Z
+                            </Button>
+                        </Col>
+                    </Row>
 
                     <Button variant="outline-dark" type="submit">Generate</Button>
                 </Form>
