@@ -5,7 +5,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import Loader from './Loaders';
+import Loader from '../../components/loader/Loaders';
 
 const styles = {
     center: {

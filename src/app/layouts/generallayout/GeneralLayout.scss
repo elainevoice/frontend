@@ -1,0 +1,33 @@
+h1, h2, h3, h4, h5, h6 {
+    color: #1E272E;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bolder !important;
+}
+
+h4 {
+    font-weight: bold !important;
+}
+
+.yellow {
+    color: #FFD32A
+}
+
+.green {
+    color: #0BE881;
+}
+
+.container-fluid {
+    padding: 3em !important;
+
+    .navbar {
+        padding: 3em !important;    
+    }
+
+    .body {
+        height: 100%;
+        margin-top: 3em;
+    }
+}

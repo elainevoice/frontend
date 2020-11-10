@@ -1,23 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import 'bootstrap/dist/css/bootstrap.css';
+import { BrowserRouter, Switch } from 'react-router-dom';
+
+import Route from './modules/RouteModule';
+
+import GeneralLayout from './layouts/generallayout/GeneralLayout';
+import BarLayout from './layouts/barlayout/BarLayout';
+
+import HomePage from './pages/homepage/HomePage';
+import FormPage from './pages/formpage/FormPage';
+
 import './App.scss';
-
-import Card from './components/Card';
-import Navbar from './components/Navbar';
-import Container from 'react-bootstrap/Container';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export class App extends Component<{}, {}> {
-  render() {
-    return (
-      <div>
-        <Container className='container-fluid' fluid >
-          <Navbar/>
-          <Card />
-        </Container>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <BrowserRouter>
+                <Switch>
+                    <Route layout={GeneralLayout} path="/" component={HomePage} exact/>
+                    <Route layout={BarLayout} path="/form" component={FormPage} exact/>
+                </Switch>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;

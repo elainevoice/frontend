@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
 import '../../index.scss'
+import 'Card.scss'
 
 import Card from 'react-bootstrap/Card'
 
-import TtsForm from './TtsForm'
+import TtsForm from '../../pages/tts-form/TtsForm'
 
 export default class ActualCard extends Component<{}, {}> {
     render() {
