@@ -29,24 +29,35 @@ export default class FormPage extends Component<{}, {}> {
                     <h1>00:16</h1>
                 </Row>
                 <Form>
-                    <Row>
-                        <Col>
+                    <Row className="justify-content-md-center">
+                        <Col md="6">
                             <Form.Group>
-                                <Form.Label>Input</Form.Label>
-                                <Form.Control as="textarea" rows={3}/>
+                                <Row>
+                                    <Col>
+                                        <Form.Label>Input</Form.Label>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md="10">
+                                        <Form.Control as="textarea" rows={3}/>
+                                        <Button className="mt-2 float-right" variant="outline-secondary" type="submit">Generate</Button>
+                                    </Col>
+                                    <Col md="2">
+                                        <Row>
+                                            <Button variant="link">
+                                                <BiMicrophone/>
+                                            </Button>
+                                        </Row>
+                                        <Row>
+                                            <Button variant="link">
+                                                a-Z
+                                            </Button>
+                                        </Row>
+                                    </Col>
+                                </Row>
                             </Form.Group>
                         </Col>
-                        <Col>
-                            <Button variant="link">
-                                <BiMicrophone/>
-                            </Button>
-                            <Button variant="link">
-                                a-Z
-                            </Button>
-                        </Col>
                     </Row>
-
-                    <Button variant="outline-dark" type="submit">Generate</Button>
                 </Form>
             </div>
         );
