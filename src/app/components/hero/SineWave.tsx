@@ -33,9 +33,9 @@ export default class SineWave extends Component<{}, {}> {
 
         for (let i = 0; i < this.width; i++) {
             if (i === 0) {
-                this.ctx.moveTo(pointList[0][0], (this.height / 2) + pointList[0][1]);
+                this.ctx.moveTo(pointList[0][0], pointList[0][1]);
             } else {
-                this.ctx.lineTo(pointList[i][0], (this.height / 2) + pointList[i][1]);
+                this.ctx.lineTo(pointList[i][0], pointList[i][1]);
             }
         }
         this.ctx.stroke();
