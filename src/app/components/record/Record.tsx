@@ -48,7 +48,7 @@ export class Record extends React.Component<any, any> {
         });
 
         Axios({
-            url: 'http://localhost:8000/taco_audio',
+            url: 'http://localhost/api/taco_audio', // point to NGINX config
             method: 'POST',
             responseType: 'blob',
             headers: { 'content-type': 'multipart/form-data' },
