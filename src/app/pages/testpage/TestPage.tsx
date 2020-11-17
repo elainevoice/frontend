@@ -22,7 +22,7 @@ export default class TestPage extends Component<{}, { value: string }> {
     
       handleSubmit(event: any) {
           Axios({
-            url: 'http://localhost:8000/taco',
+            url: 'http://localhost/api/taco',
             method: 'POST',
             responseType: 'blob',
             data: {

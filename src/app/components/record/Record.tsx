@@ -54,6 +54,7 @@ export class Record extends React.Component<any, any> {
             headers: { 'content-type': 'multipart/form-data' },
             data: fd,
         }).then((response) => {
+            console.log("===>", response);
             const url = window.URL.createObjectURL(new Blob([response.data]));
 
             // Code for AUTO-DOWNLOADING with an anchor tag
@@ -78,7 +79,8 @@ export class Record extends React.Component<any, any> {
         });
     }
 
-    onData() {
+    onData(e: any) {
+        console.log("DATA=",e);
         console.log('recording');
     }
 
@@ -103,6 +105,9 @@ export class Record extends React.Component<any, any> {
                         mimeType="audio/wav"
                         backgroundColor="#fcfcfc"
                     />
+                </div>
+                <div id="audio-playlist">
+
                 </div>
             </div>
         );
