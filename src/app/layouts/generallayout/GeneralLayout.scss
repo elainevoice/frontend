@@ -5,6 +5,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-brand {
     font-weight: bolder !important;
+    position: relative;
+    right: 0.5em;
 }
 
 h4 {
@@ -19,15 +21,15 @@ h4 {
     color: #0BE881;
 }
 
-.container-fluid {
-    padding: 3em !important;
+// .container-fluid {
+//     padding: 3em !important;
 
-    .navbar {
-        padding: 3em !important;    
-    }
+//     .navbar {
+//         padding: 3em !important;    
+//     }
 
-    .body {
-        height: 100%;
-        margin-top: 3em;
-    }
-}
+//     .body {
+//         height: 100%;
+//         margin-top: 3em;
+//     }
+// }

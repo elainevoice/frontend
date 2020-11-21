@@ -9,7 +9,7 @@ import BarLayout from './layouts/barlayout/BarLayout';
 
 import HomePage from './pages/homepage/HomePage';
 import FormPage from './pages/formpage/FormPage';
-import TestPage from './pages/testpage/TestPage';
+import TtsPage from './pages/ttspage/TtsPage';
 
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -21,7 +21,7 @@ export class App extends Component<{}, {}> {
                 <Switch>
                     <Route layout={GeneralLayout} path="/" component={HomePage} exact/>
                     <Route layout={BarLayout} path="/form" component={FormPage} exact/>
-                    <Route layout={BarLayout} path="/test" component={TestPage} exact/>
+                    <Route layout={BarLayout} path="/tts" component={TtsPage} exact/>
                 </Switch>
             </BrowserRouter>
         );

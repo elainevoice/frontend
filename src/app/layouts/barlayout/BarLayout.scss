@@ -19,15 +19,21 @@ h4 {
     color: #0BE881;
 }
 
-.container-fluid {
-    padding: 3em !important;
-
-    .navbar {
-        padding: 3em !important;    
-    }
-
-    .body {
-        height: 100%;
-        margin-top: 3em;
-    }
+.navbar {
+    top: 0;
+    left: 0;
+    right: 0;
 }
+
+// .container-fluid {
+//     padding: 3em !important;
+
+//     .navbar {
+//         padding: 3em !important;    
+//     }
+
+//     .body {
+//         height: 100%;
+//         margin-top: 3em;
+//     }
+// }

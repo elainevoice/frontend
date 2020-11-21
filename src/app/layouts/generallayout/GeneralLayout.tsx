@@ -10,7 +10,7 @@ export default class GeneralLayout extends Component<{}, {}> {
     render() {
         return (
             <Container fluid>
-                <Navbar fixed="top">
+                <Navbar>
                     <Navbar.Brand href="/">
                         El<span className="yellow">ai</span>ne Voice
                     </Navbar.Brand>
