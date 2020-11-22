@@ -2,16 +2,15 @@ import React, { Component } from "react";
 
 import "./TtsPage.scss";
 import Axios from "axios";
+import { Container } from "react-bootstrap";
 
 export default class TestPage extends Component<{}, { value: string }> {
-    counter: number;
     playing: boolean;
 
     constructor(props: any) {
         super(props);
 
         this.playing = false;
-        this.counter = 0;
         this.state = {
             value: "",
         };
@@ -27,7 +26,7 @@ export default class TestPage extends Component<{}, { value: string }> {
     handleSubmit(event: any) {
         var savedText = this.state.value;
         Axios({
-            url: "http://localhost:8000/taco",
+            url: "http://localhost:8000/api/taco",
             method: "POST",
             responseType: "blob",
             data: {
@@ -55,24 +54,24 @@ export default class TestPage extends Component<{}, { value: string }> {
             audio.style.display = "none";
 
             const playButtonTD = document.createElement("td");
-            playButtonTD.style.border = "1px solid";
+            playButtonTD.style.border = "1px solid lightgrey";
             playButtonTD.style.borderWidth = "1px 0";
             playButtonTD.style.padding = "4px 0";
 
             const audioTitleTD = document.createElement("td");
-            audioTitleTD.style.border = "1px solid";
+            audioTitleTD.style.border = "1px solid lightgrey";
             audioTitleTD.style.borderWidth = "1px 0";
             audioTitleTD.style.padding = "4px 0";
             audioTitleTD.style.width = "400px";
             audioTitleTD.style.maxWidth = "400px";
 
             const audioModelTD = document.createElement("td");
-            audioModelTD.style.border = "1px solid";
+            audioModelTD.style.border = "1px solid lightgrey";
             audioModelTD.style.borderWidth = "1px 0";
             audioModelTD.style.padding = "4px 0";
 
             const audioDurationTD = document.createElement("td");
-            audioDurationTD.style.border = "1px solid";
+            audioDurationTD.style.border = "1px solid lightgrey";
             audioDurationTD.style.borderWidth = "1px 0";
             audioDurationTD.style.padding = "4px 0";
 
@@ -82,14 +81,10 @@ export default class TestPage extends Component<{}, { value: string }> {
             modelName.innerHTML = "GriffinLim";
 
             if (audio) {
-                // const audioTitle = document.createElement("p");
-                // this.counter++;
-                // audioTitle.innerHTML = "Audio File #" + this.counter;
-                // audioRow?.appendChild(audioTitle);
                 audioRow?.appendChild(audio);
-                // audioPlaylist?.appendChild(link);
                 const span = document.createElement("span");
                 span.className = "fa fa-play-circle fa-lg"
+
                 // List van spans bijhouden, welke zijn gedrukt == playing state
                 span.onclick = () => {
                     if (!this.playing && !audio.onplaying) {
@@ -117,7 +112,7 @@ export default class TestPage extends Component<{}, { value: string }> {
                         }
                         title.innerText = savedText.slice(0, i) + "...";
                         break;
-                    }                    
+                    }
                 }
 
                 // Add ... to the end of the title in case it is too long for the table row
@@ -138,11 +133,8 @@ export default class TestPage extends Component<{}, { value: string }> {
                 audioRow.appendChild(audioModelTD);
                 audioRow.appendChild(audioDurationTD);
 
-                // audioRow?.appendChild(span);
-                // audioRow?.appendChild(modelName);
-                // audioRow?.appendChild(durationTime);
                 audio.onloadedmetadata = function () {
-                    durationTime.innerHTML = audio.duration.toString() + "s";
+                    durationTime.innerHTML = (Math.round(audio.duration * 100) / 100).toString() + "s";
                 };
 
                 audioPlaylist?.appendChild(audioRow);
@@ -154,34 +146,49 @@ export default class TestPage extends Component<{}, { value: string }> {
 
     render() {
         return (
-            <div id="content-wrapper">
-                <form onSubmit={this.handleSubmit}>
-                    <textarea
-                        className="taco-text"
-                        placeholder="Enter your message here..."
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                    />
-                    <br></br>
-                    <input type="submit" value="Submit" />
-                </form>
-                <div id="audio-playlist">
-                    <hr></hr>
-                    <h3>Playlist</h3>
-                    <table id="playlist-table">
-                        <thead>
-                            <tr>
-                                <th style={{maxWidth: 50, width: 50}}>&zwnj;</th>
-                                <th style={{width: 400, maxWidth: 400}}>Title</th>
-                                <th style={{"width": "25%"}}>Model</th>
-                                <th>Duration</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+            <Container>
+                <div id="content-wrapper">
+                    <h2 className="tts-title">Text to Speech</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <textarea
+                            className="taco-text"
+                            placeholder="Fill in the text you want to have translated..."
+                            value={this.state.value}
+                            onChange={this.handleChange}
+                        />
+                        <div className="options-wrapper">
+                            <select defaultValue="" name="models" id="models" className="select-btn">
+                                <option value="" disabled>Select a model...</option>
+                                <option value="flute">Flute</option>
+                                <option value="xhosa" disabled>Xhosa</option>
+                                <option value="human" disabled>Human</option>
+                            </select>
+                            <select defaultValue="" name="vocoders" id="vocoders" className="select-btn">
+                                <option value="" disabled>Select a vocoder...</option>
+                                <option value="griffinlim">GriffinLim</option>
+                            </select>
+                        </div>
+                        <br></br>
+                        <input className="translate-btn" type="submit" value="Translate" />
+                    </form>
+                    <div id="audio-playlist">
+                        <hr></hr>
+                        <h3>Playlist</h3>
+                        <table id="playlist-table">
+                            <thead>
+                                <tr>
+                                    <th style={{ maxWidth: 50, width: 50 }}>&zwnj;</th>
+                                    <th style={{ width: 400, maxWidth: 400 }}>Title</th>
+                                    <th style={{ "width": "25%" }}>Model</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </Container>
         );
     }
 }
