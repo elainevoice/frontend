@@ -98,3 +98,17 @@ textarea:focus {
 .select-btn:focus {
     outline-width: 0;
 }
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .options-wrapper {
+        max-width: 1140px !important;
+        margin: 2em 185px;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .options-wrapper {
+        max-width: 1140px !important;
+        margin: 2em 65px;
+    }
+}
