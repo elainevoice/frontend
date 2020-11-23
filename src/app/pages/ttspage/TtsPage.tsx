@@ -46,7 +46,9 @@ export default class TestPage extends Component<{}, { value: string }> {
             const audioRow = document.createElement("tr");
 
             // Basic proof of concept design 🤡 idk how to render with React sadlife
-            const audioPlaylist = document.getElementById("playlist-table").getElementsByTagName('tbody')[0];
+            const playlistTable: any = document.getElementById("playlist-table")
+            const audioPlaylist = playlistTable.getElementsByTagName('tbody')[0];
+            
             const audio = document.createElement("audio");
             audio.setAttribute("controls", "controls");
             audio.setAttribute("src", url);
