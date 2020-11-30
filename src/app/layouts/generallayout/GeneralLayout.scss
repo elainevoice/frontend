@@ -1,5 +1,10 @@
-h1, h2, h3, h4, h5, h6 {
-    color: #1E272E;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #1e272e;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -14,18 +19,18 @@ h4 {
 }
 
 .yellow {
-    color: #FFD32A
+    color: #ffd32a;
 }
 
 .green {
-    color: #0BE881;
+    color: #0be881;
 }
 
 // .container-fluid {
 //     padding: 3em !important;
 
 //     .navbar {
-//         padding: 3em !important;    
+//         padding: 3em !important;
 //     }
 
 //     .body {
@@ -33,3 +38,17 @@ h4 {
 //         margin-top: 3em;
 //     }
 // }
+
+.playButtonTD {
+    border: 1px solid lightgrey;
+    border-width: 1px 0;
+    padding: 4px 0;
+}
+
+.audioTitleTD {
+    border: 1px solid lightgrey;
+    border-width: 1px 0;
+    padding: 4px 0;
+    width: 400px;
+    max-width: 400px;
+}

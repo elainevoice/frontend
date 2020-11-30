@@ -1,7 +1,9 @@
 import Axios from 'axios';
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { ReactMic } from 'react-mic';
+import Playlist from '../playlist/Playlist';
+import './Record.scss';
 
 export class Record extends React.Component<any, any> {
     constructor(props: any) {
@@ -41,75 +43,83 @@ export class Record extends React.Component<any, any> {
     async handleSubmit() {
         const fd = new FormData();
         fd.append('file', this.state.recordedBlob.blob);
-        let response = await fetch(this.state.recordedBlob.blobUrl);
-        let blob = await response.blob();
-        const file = new File([blob], 'audio.wav', {
-            type: 'audio/wav',
-        });
 
         Axios({
-            url: 'http://localhost/api/taco_audio', // point to NGINX config
+            url: 'http://localhost:8000/api/taco_audio', // point to NGINX config
             method: 'POST',
             responseType: 'blob',
             headers: { 'content-type': 'multipart/form-data' },
             data: fd,
         }).then((response) => {
-            console.log("===>", response);
             const url = window.URL.createObjectURL(new Blob([response.data]));
-
-            // Code for AUTO-DOWNLOADING with an anchor tag
-            // const link = document.createElement('a');
-            // link.href = url;
-            // link.setAttribute('download', 'somethin.wav');
-            // document.body.appendChild(link);
-            // link.click();
-
-            // Basic proof of concept design 🤡 idk how to render with React sadlife
-            const audioPlaylist = document.getElementById('audio-playlist');
-            const audio = document.createElement('audio');
-            audio.setAttribute('controls', 'controls');
-            audio.setAttribute('src', url);
-
-            if (audio) {
-                const audioTitle = document.createElement('p');
-                audioTitle.innerHTML = 'Audio File';
-                audioPlaylist?.appendChild(audioTitle);
-                audioPlaylist?.appendChild(audio);
-            }
+            Playlist.addRow(url, undefined);
         });
     }
 
     onData(e: any) {
-        console.log("DATA=",e);
-        console.log('recording');
+        console.log('data: ', e);
+    }
+
+    handleChange(event: any) {
+        this.setState({ value: event.target.value });
     }
 
     render() {
         return (
-            <div className="body">
-                <div>
-                    <Button onClick={this.startRecording} variant="primary">
-                        Start
-                    </Button>
-                    <Button onClick={this.stopRecording} variant="primary">
-                        Stop
-                    </Button>
+            <Container>
+                <div id="content-wrapper">
+                    <h2 className="tts-title">Speech to Speech</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="container mt-3">
+                            <div className="d-flex justify-content-center mb-3">
+                                <ReactMic
+                                    record={this.state.record}
+                                    className="sound-wave"
+                                    onStop={this.onStop}
+                                    onData={this.onData}
+                                    strokeColor="#111"
+                                    mimeType="audio/wav"
+                                    backgroundColor="white"
+                                />
+                            </div>
+                        </div>
+                        <div className="container mt-3">
+                            <div className="d-flex justify-content-center mb-3">
+                                <Button onClick={this.startRecording} variant="custom">
+                                    Start recording
+                                </Button>
+                                <Button onClick={this.stopRecording} variant="custom">
+                                    Stop recording
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="container mt-3">
+                            <div className="d-flex justify-content-center mb-3">
+                                <div className="options-wrapper">
+                                    <select defaultValue="whistling" name="models" id="models" className="options">
+                                        <option value="" disabled>
+                                            Select a model
+                                        </option>
+                                        <option value="whistling">Whistling</option>
+                                        <option value="xhosa" disabled>
+                                            Xhosa
+                                        </option>
+                                        <option value="human" disabled>
+                                            Human
+                                        </option>
+                                    </select>
+                                    <select defaultValue="griffinlim" name="vocoders" id="vocoders" className="options">
+                                        <option value="" disabled>
+                                            Select a vocoder
+                                        </option>
+                                        <option value="griffinlim">GriffinLim</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div className="record">
-                    <ReactMic
-                        record={this.state.record}
-                        className="sound-wave"
-                        onStop={this.onStop}
-                        onData={this.onData}
-                        strokeColor="#111"
-                        mimeType="audio/wav"
-                        backgroundColor="#fcfcfc"
-                    />
-                </div>
-                <div id="audio-playlist">
-
-                </div>
-            </div>
+            </Container>
         );
     }
 }
