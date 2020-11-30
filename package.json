@@ -15,6 +15,7 @@
     "@types/react-router-dom": "^5.1.6",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
+    "bootstrap-switch-button-react": "^1.2.0",
     "js-file-download": "^0.4.12",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
