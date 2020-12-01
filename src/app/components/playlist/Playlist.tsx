@@ -42,13 +42,19 @@ export default class Playlist extends Component<any, any> {
         const audioModelTD = document.createElement('td');
         audioModelTD.classList.add('playButtonTD');
 
+        const audioVocoderTD = document.createElement('td');
+        audioVocoderTD.classList.add('playButtonTD');
+
         const audioDurationTD = document.createElement('td');
         audioDurationTD.classList.add('playButtonTD');
 
         const durationTime = document.createElement('span');
 
         const modelName = document.createElement('span');
-        modelName.innerHTML = 'GriffinLim';
+        modelName.innerHTML = 'Whistling';
+
+        const vocoderName = document.createElement('span');
+        vocoderName.innerHTML = 'GriffinLim';
 
         if (audio) {
             audioRow?.appendChild(audio);
@@ -94,11 +100,13 @@ export default class Playlist extends Component<any, any> {
             playButtonTD.appendChild(span);
             audioTitleTD.appendChild(title);
             audioModelTD.appendChild(modelName);
+            audioVocoderTD.appendChild(vocoderName);
             audioDurationTD.appendChild(durationTime);
 
             audioRow.appendChild(playButtonTD);
             audioRow.appendChild(audioTitleTD);
             audioRow.appendChild(audioModelTD);
+            audioRow.appendChild(audioVocoderTD);
             audioRow.appendChild(audioDurationTD);
 
             audio.onloadedmetadata = function () {
@@ -121,6 +129,7 @@ export default class Playlist extends Component<any, any> {
                                 <th style={{ maxWidth: 50, width: 50 }}>&zwnj;</th>
                                 <th style={{ width: 400, maxWidth: 400 }}>Title</th>
                                 <th style={{ width: '25%' }}>Model</th>
+                                <th style={{ width: '25%' }}>Vocoder</th>
                                 <th>Duration</th>
                             </tr>
                         </thead>

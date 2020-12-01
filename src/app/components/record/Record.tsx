@@ -26,24 +26,15 @@ export class Record extends React.Component<any, any> {
     };
 
     onStop = (recordedBlob: { blobURL: any }) => {
-        const self = this;
-        console.log(recordedBlob);
-        self.setState({
+        this.setState({
             blobURL: recordedBlob.blobURL,
             recordedBlob: recordedBlob,
         });
 
-        this.handleSubmit();
+        this.onSpeak();
     };
 
-    downloadRecording() {
-        let newBlob = new Blob(this.state.recordedBlob, { type: 'audio/wav' });
-    }
-
-    async handleSubmit() {
-        const fd = new FormData();
-        fd.append('file', this.state.recordedBlob.blob);
-
+    handleSubmit = (fd: FormData) => {
         Axios({
             url: 'http://localhost:8000/api/taco_audio', // point to NGINX config
             method: 'POST',
@@ -54,29 +45,37 @@ export class Record extends React.Component<any, any> {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             Playlist.addRow(url, undefined);
         });
-    }
+    };
 
-    onData(e: any) {
-        console.log('data: ', e);
-    }
+    onSpeak = () => {
+        const fd = new FormData();
+        fd.append('file', this.state.recordedBlob.blob);
+        this.handleSubmit(fd);
+    };
 
-    handleChange(event: any) {
-        this.setState({ value: event.target.value });
-    }
+    onUpload = () => {
+        const fd = new FormData();
+        fd.append('file', this.state.selectedFile);
+        this.handleSubmit(fd);
+    };
+    onFileChange = (event: any) => {
+        // Update the state
+        console.log(event);
+        this.setState({ selectedFile: event.target.files[0] });
+    };
 
     render() {
         return (
             <Container>
                 <div id="content-wrapper">
                     <h2 className="tts-title">Speech to Speech</h2>
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.onSpeak}>
                         <div className="container mt-3">
                             <div className="d-flex justify-content-center mb-3">
                                 <ReactMic
                                     record={this.state.record}
                                     className="sound-wave"
                                     onStop={this.onStop}
-                                    onData={this.onData}
                                     strokeColor="#111"
                                     mimeType="audio/wav"
                                     backgroundColor="white"
@@ -93,6 +92,18 @@ export class Record extends React.Component<any, any> {
                                 </Button>
                             </div>
                         </div>
+
+                        <div className="container mt-3">
+                            <div className="d-flex justify-content-center mb-3">
+                                <label className="btn btn-custom2">
+                                    Browse <input type="file" onChange={this.onFileChange} hidden />
+                                </label>
+                                <Button onClick={this.onUpload} variant="custom2">
+                                    Upload
+                                </Button>
+                            </div>
+                        </div>
+
                         <div className="container mt-3">
                             <div className="d-flex justify-content-center mb-3">
                                 <div className="options-wrapper">
