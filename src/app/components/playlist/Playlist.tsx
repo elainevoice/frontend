@@ -89,7 +89,7 @@ export default class Playlist extends Component<any, any> {
             }
 
             // Add ... to the end of the title in case it is too long for the table row
-            if (savedText.length >= 25 && checkNewLine == false) {
+            if (savedText.length >= 25 && checkNewLine === false) {
                 var slicedText = savedText.slice(0, 25);
                 var editedText = slicedText.slice(0, -3) + '...';
 
