@@ -101,7 +101,9 @@ export class Record extends React.Component<any, any> {
                             </div>
                         </div>
 
-                        {/*<div className="container mt-3">
+                        {
+                            //Uitgecomment tot we iets hebben om te kiezen
+                            /*<div className="container mt-3">
                             <div className="d-flex justify-content-center mb-3">
                                 <div className="options-wrapper">
                                     <select defaultValue="whistling" name="models" id="models" className="options">
@@ -124,7 +126,8 @@ export class Record extends React.Component<any, any> {
                                     </select>
                                 </div>
                             </div>
-                        </div>*/}
+                        </div>*/
+                        }
                     </form>
                 </div>
             </Container>

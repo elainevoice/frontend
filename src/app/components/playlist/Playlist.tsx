@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import './Playlist.scss';
-import Axios from 'axios';
 import { Container } from 'react-bootstrap';
 
 export default class Playlist extends Component<any, any> {
