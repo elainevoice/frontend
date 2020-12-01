@@ -1,5 +1,10 @@
-h1, h2, h3, h4, h5, h6 {
-    color: #1E272E;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #1e272e;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -12,11 +17,11 @@ h4 {
 }
 
 .yellow {
-    color: #FFD32A
+    color: #ffd32a;
 }
 
 .green {
-    color: #0BE881;
+    color: #0be881;
 }
 
 .navbar {
@@ -24,16 +29,3 @@ h4 {
     left: 0;
     right: 0;
 }
-
-// .container-fluid {
-//     padding: 3em !important;
-
-//     .navbar {
-//         padding: 3em !important;    
-//     }
-
-//     .body {
-//         height: 100%;
-//         margin-top: 3em;
-//     }
-// }
