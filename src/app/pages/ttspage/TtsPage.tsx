@@ -53,7 +53,7 @@ export default class TtsPage extends Component<{}, { value: string }> {
                             value={this.state.value}
                             onChange={this.handleChange}
                         />
-                        <div className="options-wrapper">
+                        {/*<div className="options-wrapper">
                             <select defaultValue="whistling" name="models" id="models" className="select-btn">
                                 <option value="" disabled>
                                     Select a model...
@@ -72,7 +72,7 @@ export default class TtsPage extends Component<{}, { value: string }> {
                                 </option>
                                 <option value="griffinlim">GriffinLim</option>
                             </select>
-                        </div>
+                        </div>*/}
                         <br></br>
                         <input className="translate-btn" type="submit" value="Translate" />
                     </form>

@@ -52,16 +52,26 @@ export class Record extends React.Component<any, any> {
         fd.append('file', this.state.recordedBlob.blob);
         this.handleSubmit(fd);
     };
-
-    onUpload = () => {
+    onFileChange = (event: any) => {
+        //this.setState({ selectedFile: event.target.files[0] });
         const fd = new FormData();
-        fd.append('file', this.state.selectedFile);
+        fd.append('file', event.target.files[0]);
         this.handleSubmit(fd);
     };
-    onFileChange = (event: any) => {
-        // Update the state
-        console.log(event);
-        this.setState({ selectedFile: event.target.files[0] });
+
+    recordButton = () => {
+        if (this.state.record) {
+            return (
+                <Button onClick={this.stopRecording} variant="custom">
+                    Stop recording
+                </Button>
+            );
+        }
+        return (
+            <Button onClick={this.startRecording} variant="custom">
+                Start recording
+            </Button>
+        );
     };
 
     render() {
@@ -84,27 +94,14 @@ export class Record extends React.Component<any, any> {
                         </div>
                         <div className="container mt-3">
                             <div className="d-flex justify-content-center mb-3">
-                                <Button onClick={this.startRecording} variant="custom">
-                                    Start recording
-                                </Button>
-                                <Button onClick={this.stopRecording} variant="custom">
-                                    Stop recording
-                                </Button>
-                            </div>
-                        </div>
-
-                        <div className="container mt-3">
-                            <div className="d-flex justify-content-center mb-3">
-                                <label className="btn btn-custom2">
-                                    Browse <input type="file" onChange={this.onFileChange} hidden />
+                                <this.recordButton />
+                                <label className="btn btn-custom">
+                                    Upload <input type="file" onChange={this.onFileChange} hidden />
                                 </label>
-                                <Button onClick={this.onUpload} variant="custom2">
-                                    Upload
-                                </Button>
                             </div>
                         </div>
 
-                        <div className="container mt-3">
+                        {/*<div className="container mt-3">
                             <div className="d-flex justify-content-center mb-3">
                                 <div className="options-wrapper">
                                     <select defaultValue="whistling" name="models" id="models" className="options">
@@ -127,7 +124,7 @@ export class Record extends React.Component<any, any> {
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div>*/}
                     </form>
                 </div>
             </Container>
