@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 
 import './TtsPage.scss';
 import { Container } from 'react-bootstrap';
-import Playlist from '../../components/playlist/Playlist';
+import Playlist, { IPlayListItemProps } from '../../components/playlist/Playlist';
 
 import SpeechProvider from '../../providers/SpeechProvider';
 
 export default class TtsPage extends Component<{}, { value: string }> {
     playing: boolean;
+
+    private items: IPlayListItemProps[] = [];
 
     constructor(props: any) {
         super(props);
@@ -31,7 +33,7 @@ export default class TtsPage extends Component<{}, { value: string }> {
         SpeechProvider.requestSpeechByText(savedText).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-                Playlist.addRow(url, savedText);
+                //Playlist.addRow(url, savedText);
             }
         )
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
+import { Container, Navbar } from "react-bootstrap";
+import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 
 import "./GeneralLayout.scss";
 
@@ -14,7 +14,26 @@ export default class GeneralLayout extends Component<{}, {}> {
                         El<span className="yellow">ai</span>ne Voice
                     </Navbar.Brand>
                 </Navbar>
-                {this.props.children}
+
+                <main>
+                    <Container className="mt-3">
+                        <div className="d-flex justify-content-end mb-3">
+                            <BootstrapSwitchButton
+                                checked={true}
+                                onlabel="Voice"
+                                onstyle="warning"
+                                offstyle="warning"
+                                offlabel="Text"
+                                width={100}
+                                onChange={(checked: boolean) => {
+                                    //this.setState({ isVoice: checked });
+                                }}
+                            />
+                        </div>
+                    </Container>
+
+                    {this.props.children}
+                </main>
             </Container>
         );
     }

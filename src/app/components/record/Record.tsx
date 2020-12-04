@@ -40,7 +40,8 @@ export class Record extends React.Component<any, any> {
         SpeechProvider.requestSpeechByAudio(fd).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-                Playlist.addRow(url, undefined);
+                console.log(url);
+                //Playlist.addRow(url, undefined);
             }
         )
     };
