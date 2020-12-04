@@ -5,7 +5,6 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import Route from './modules/RouteModule';
 
 import GeneralLayout from './layouts/generallayout/GeneralLayout';
-
 import HomePage from './pages/homepage/HomePage';
 
 import './App.scss';

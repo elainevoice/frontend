@@ -1,5 +1,7 @@
-import Axios from 'axios';
 import React from 'react';
+
+import SpeechProvider from '../../providers/SpeechProvider';
+
 import { Button, Container } from 'react-bootstrap';
 import { ReactMic } from 'react-mic';
 import Playlist from '../playlist/Playlist';
@@ -35,16 +37,12 @@ export class Record extends React.Component<any, any> {
     };
 
     handleSubmit = (fd: FormData) => {
-        Axios({
-            url: 'http://localhost:8000/api/taco_audio', // point to NGINX config
-            method: 'POST',
-            responseType: 'blob',
-            headers: { 'content-type': 'multipart/form-data' },
-            data: fd,
-        }).then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            Playlist.addRow(url, undefined);
-        });
+        SpeechProvider.requestSpeechByAudio(fd).subscribe(
+            (result: any) => {
+                const url = window.URL.createObjectURL(new Blob([result]));
+                Playlist.addRow(url, undefined);
+            }
+        )
     };
 
     onSpeak = () => {

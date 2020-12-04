@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import './TtsPage.scss';
-import Axios from 'axios';
 import { Container } from 'react-bootstrap';
 import Playlist from '../../components/playlist/Playlist';
+
+import SpeechProvider from '../../providers/SpeechProvider';
 
 export default class TtsPage extends Component<{}, { value: string }> {
     playing: boolean;
@@ -26,17 +27,13 @@ export default class TtsPage extends Component<{}, { value: string }> {
 
     handleSubmit(event: any) {
         var savedText = this.state.value;
-        Axios({
-            url: 'http://localhost:8000/api/taco',
-            method: 'POST',
-            responseType: 'blob',
-            data: {
-                text: this.state.value,
-            },
-        }).then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            Playlist.addRow(url, savedText);
-        });
+        
+        SpeechProvider.requestSpeechByText(savedText).subscribe(
+            (result: any) => {
+                const url = window.URL.createObjectURL(new Blob([result]));
+                Playlist.addRow(url, savedText);
+            }
+        )
 
         event.preventDefault();
     }
