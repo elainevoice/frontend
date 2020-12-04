@@ -5,7 +5,8 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 
 import "./GeneralLayout.scss";
 
-export default class GeneralLayout extends Component<{}, {}> {
+export default class GeneralLayout extends Component<any, any> {
+
     render() {
         return (
             <Container fluid>
@@ -25,9 +26,7 @@ export default class GeneralLayout extends Component<{}, {}> {
                                 offstyle="warning"
                                 offlabel="Text"
                                 width={100}
-                                onChange={(checked: boolean) => {
-                                    //this.setState({ isVoice: checked });
-                                }}
+                                onChange={console.log("FUCK");}
                             />
                         </div>
                     </Container>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './TtsPage.scss';
 import { Container } from 'react-bootstrap';
-import Playlist, { IPlayListItemProps } from '../../components/playlist/Playlist';
+import { IPlayListItemProps } from '../../components/playlist/Playlist';
 
 import SpeechProvider from '../../providers/SpeechProvider';
 
@@ -52,29 +52,6 @@ export default class TtsPage extends Component<{}, { value: string }> {
                             value={this.state.value}
                             onChange={this.handleChange}
                         />
-                        {
-                            //Uitgecomment tot we iets hebben om te kiezen
-                            /*<div className="options-wrapper">
-                            <select defaultValue="whistling" name="models" id="models" className="select-btn">
-                                <option value="" disabled>
-                                    Select a model...
-                                </option>
-                                <option value="whistling">Whistling</option>
-                                <option value="xhosa" disabled>
-                                    Xhosa
-                                </option>
-                                <option value="human" disabled>
-                                    Human
-                                </option>
-                            </select>
-                            <select defaultValue="griffinlim" name="vocoders" id="vocoders" className="select-btn">
-                                <option value="" disabled>
-                                    Select a vocoder...
-                                </option>
-                                <option value="griffinlim">GriffinLim</option>
-                            </select>
-                        </div>*/
-                        }
                         <br></br>
                         <input className="translate-btn" type="submit" value="Translate" />
                     </form>
