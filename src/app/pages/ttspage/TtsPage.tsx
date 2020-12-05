@@ -4,19 +4,26 @@ import './TtsPage.scss';
 import { Container } from 'react-bootstrap';
 import { IPlayListItemProps } from '../../components/playlist/Playlist';
 
+import Playlist from "../../components/playlist/Playlist";
+
 import SpeechProvider from '../../providers/SpeechProvider';
 
-export default class TtsPage extends Component<{}, { value: string }> {
-    playing: boolean;
+export interface ITtsPageState {
+    value: string;
+    items: IPlayListItemProps[];
+}
 
-    private items: IPlayListItemProps[] = [];
+export default class TtsPage extends Component<any, ITtsPageState> {
+    playing: boolean;
 
     constructor(props: any) {
         super(props);
 
         this.playing = false;
+
         this.state = {
             value: '',
+            items: []
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -33,7 +40,19 @@ export default class TtsPage extends Component<{}, { value: string }> {
         SpeechProvider.requestSpeechByText(savedText).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-                //Playlist.addRow(url, savedText);
+
+                const title = savedText ?? new Date().toString();
+
+                const items = this.state.items.map(s => s);
+                items.push({
+                    title,
+                    url,
+                    model: 'Whistling',
+                    vocoder: 'GriffinLim'
+                })
+                this.setState({
+                    items: items
+                })
             }
         )
 
@@ -56,6 +75,9 @@ export default class TtsPage extends Component<{}, { value: string }> {
                         <input className="translate-btn" type="submit" value="Translate" />
                     </form>
                 </div>
+                <Playlist
+                    items={this.state.items}
+                />
             </Container>
         );
     }

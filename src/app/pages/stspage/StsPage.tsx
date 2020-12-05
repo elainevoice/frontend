@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 
 import SpeechProvider from '../../providers/SpeechProvider';
+import { IPlayListItemProps } from '../../components/playlist/Playlist';
 
 import { Button, Container } from 'react-bootstrap';
 import { ReactMic } from 'react-mic';
+
+import Playlist from "../../components/playlist/Playlist";
 
 import './StsPage.scss';
 
@@ -11,14 +14,17 @@ export interface IRecordState {
     record?: boolean;
     blobURL?: any;
     recordedBlob?: any;
+    items: IPlayListItemProps[];
 }
 
 export default class StsPage extends Component<any, IRecordState> {
+
     constructor(props: any) {
         super(props);
         
         this.state = {
             record: false,
+            items: []
         };
     }
 
@@ -47,7 +53,19 @@ export default class StsPage extends Component<any, IRecordState> {
         SpeechProvider.requestSpeechByAudio(fd).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-                this.props.onRecordedCallback(url);
+
+                const title = new Date().toString();
+
+                const items = this.state.items.map(s => s);
+                items.push({
+                    title,
+                    url,
+                    model: 'Whistling',
+                    vocoder: 'GriffinLim'
+                })
+                this.setState({
+                    items: items
+                })
             }
         )
     };
@@ -135,6 +153,9 @@ export default class StsPage extends Component<any, IRecordState> {
                         </div>*/
                         }
                     </form>
+                    <Playlist
+                        items={this.state.items}
+                    />
                 </div>
             </section>
         );

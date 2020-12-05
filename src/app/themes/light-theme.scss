@@ -1,0 +1,7 @@
+// Bootstrap and its default variables
+$theme-colors: (
+    "primary": #ffd32a,
+    "secondary": #0be881
+);
+
+@import "node_modules/bootstrap/scss/bootstrap";

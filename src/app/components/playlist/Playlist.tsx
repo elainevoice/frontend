@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 
-import './Playlist.scss';
-
 import { Container, Table } from 'react-bootstrap';
 
-export interface IPlayListItemProps {
-    title: string,
-    model: string,
-    vocoder: string,
-    duration: string
-}
+import PlaylistItem, { IPlayListItemProps } from './item/PlaylistItem';
+
+import { AiOutlineClockCircle } from 'react-icons/ai';
+
+import './Playlist.scss';
+
+export type { IPlayListItemProps };
 
 export interface IPlayListProps {
     items: IPlayListItemProps[]
@@ -19,29 +18,23 @@ export default class Playlist extends Component<IPlayListProps, any> {
     render() {
         return (
             <Container>
-                <div id="audio-playlist">
+                <div className="audio-playlist">
                     <hr></hr>
                     <h3>Playlist</h3>
-                    <Table id="playlist-table">
+                    <Table className="playlist-table" striped hover>
                         <thead>
                             <tr>
-                                <th>&zwnj;</th>
-                                <th>Title</th>
-                                <th>Model</th>
-                                <th>Vocoder</th>
-                                <th>Duration</th>
+                                <th style={{ maxWidth: 50, width: 50 }}>&zwnj;</th>
+                                <th style={{ width: 400, maxWidth: 400 }}>Title</th>
+                                <th style={{ width: '25%' }}>Model</th>
+                                <th style={{ width: '25%' }}>Vocoder</th>
+                                <th scope="col"><AiOutlineClockCircle/></th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                this.props.items.map((item: IPlayListItemProps, index: Number) => (
-                                    <tr>
-                                        <td>0</td>
-                                        <td>{item.title}</td>
-                                        <td>{item.model}</td>
-                                        <td>{item.vocoder}</td>
-                                        <td>{item.duration}</td>
-                                    </tr>
+                                this.props.items.map((item: IPlayListItemProps, index: number) => (
+                                    <PlaylistItem key={index} {...item}/>
                                 ))
                             }
                         </tbody>

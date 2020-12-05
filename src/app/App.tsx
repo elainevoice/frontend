@@ -10,9 +10,10 @@ import StsPage from './pages/stspage/StsPage';
 import TtsPage from './pages/ttspage/TtsPage';
 
 import './App.scss';
-import 'bootstrap/dist/css/bootstrap.css';
 
-export class App extends Component<{}, {}> {
+import './themes/light-theme.scss';
+
+export class App extends Component<any, any> {
     render() {
         return (
             <BrowserRouter>
@@ -20,8 +21,10 @@ export class App extends Component<{}, {}> {
                     <ReactRoute path="/" exact>
                         <Redirect to="/speech-to-speech" />
                     </ReactRoute>
-                    <Route layout={GeneralLayout} path="/speech-to-speech" component={StsPage} exact />
-                    <Route layout={GeneralLayout} path="/text-to-speech" component={TtsPage} exact />
+                    <GeneralLayout>
+                        <ReactRoute path="/speech-to-speech" component={StsPage} exact />
+                        <ReactRoute path="/text-to-speech" component={TtsPage} exact />
+                    </GeneralLayout>
                 </Switch>
             </BrowserRouter>
         );
