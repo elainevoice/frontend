@@ -24,13 +24,15 @@ export default class SpeechProvider {
     private static request(path: string, data: any, headers?: any): Observable<any> {
         return Observable.create((observer: any) => {
             Axios({
-                url: process.env.REACT_APP_API + path,
+                url: 'http://localhost:8000/api' + path,
                 method: 'POST',
                 responseType: 'blob',
                 headers,
-                data 
+                data
             }).then((response: any) => {
                 observer.next(response.data);
+            }).catch((error: any) => {
+                observer.error(error);
             })
         })
     }

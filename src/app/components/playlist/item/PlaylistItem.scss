@@ -1,5 +1,5 @@
 .audio-playlist-item {
-    th[scope=row] {
+    th[scope='row'] {
         display: flex;
 
         flex-grow: 1;
@@ -10,7 +10,7 @@
         button {
             height: 22px;
             display: flex;
-            
+
             align-items: center;
             justify-content: center;
 
@@ -22,4 +22,18 @@
             }
         }
     }
+}
+
+.downloadLink {
+    color: black;
+    &:focus {
+        color: black;
+    }
+    &:hover {
+        color: black;
+    }
+}
+
+.transparentButton {
+    background-color: transparent;
 }
