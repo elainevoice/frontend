@@ -32,7 +32,7 @@ export class App extends Component<any, IAppState> {
         items.push(item)
         this.setState({
             items: items
-        })
+        });
     }
 
     render() {

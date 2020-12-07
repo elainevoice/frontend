@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 
 import './PlaylistItem.scss';
@@ -35,6 +34,9 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
         }
 
         this.audio = new Audio(this.props.url);
+    }
+
+    componentDidMount() {
         this.audio.onloadedmetadata = () => {
             this.setState({ duration: this.audio.duration.toFixed(2) })
         }
@@ -42,16 +44,19 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
     }
 
     private onAudioPlayClick = () => {
+        console.log("PLAY")
         this.setState({ state: AudioState.PLAYING })
         this.audio.play();
     }
 
     private onAudioPauseClick = () => {
+        console.log("PAUSE")
         this.setState({ state: AudioState.PAUSED })
         this.audio.pause();
     }
 
     private onAudioFinished = () => {
+        console.log("FINISHED")
         this.setState({ state: AudioState.IDLE })
     }
 
@@ -67,7 +72,7 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
                                     <AiOutlinePlayCircle/>
                                 </button>;
                             case AudioState.PLAYING:  
-                                return <button onClick={this.onAudioPlayClick}>
+                                return <button onClick={this.onAudioPauseClick}>
                                     <AiOutlinePauseCircle/>
                                 </button>;
                         }
