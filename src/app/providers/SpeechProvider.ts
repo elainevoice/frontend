@@ -12,12 +12,13 @@ export default class SpeechProvider {
     private static ENDPOINT_SPEECH_BY_AUDIO = '/taco_audio';
 
     public static requestSpeechByText(text: string): Observable<any> {
+        var headers = {'model': 'ljspeech' }
         const data = { text }
-        return SpeechProvider.request(SpeechProvider.ENDPOINT_SPEECH_BY_TEXT, data);
+        return SpeechProvider.request(SpeechProvider.ENDPOINT_SPEECH_BY_TEXT, data, headers);
     }
 
     public static requestSpeechByAudio(audio: any): Observable<any> {
-        const headers = { 'content-type': 'multipart/form-data' }
+        var headers = { 'content-type': 'multipart/form-data', 'model': 'ljspeech' }
         return SpeechProvider.request(SpeechProvider.ENDPOINT_SPEECH_BY_AUDIO, audio, headers);
     }
 

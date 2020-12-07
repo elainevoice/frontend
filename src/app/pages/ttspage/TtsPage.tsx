@@ -6,6 +6,8 @@ import Playlist from '../../components/playlist/Playlist';
 
 import SpeechProvider from '../../providers/SpeechProvider';
 
+import ModelSelector from '../../components/model_selector/ModelSelector';
+
 export default class TtsPage extends Component<{}, { value: string }> {
     playing: boolean;
 
@@ -50,6 +52,7 @@ export default class TtsPage extends Component<{}, { value: string }> {
                             value={this.state.value}
                             onChange={this.handleChange}
                         />
+                        <ModelSelector />
                         {
                             //Uitgecomment tot we iets hebben om te kiezen
                             /*<div className="options-wrapper">
