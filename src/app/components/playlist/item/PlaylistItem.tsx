@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Button } from 'react-bootstrap';
-
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 
 import './PlaylistItem.scss';
@@ -65,13 +63,13 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
                         switch (this.state.state) {
                             case AudioState.IDLE: 
                             case AudioState.PAUSED: 
-                                return <Button variant="link" onClick={this.onAudioPlayClick}>
+                                return <button onClick={this.onAudioPlayClick}>
                                     <AiOutlinePlayCircle/>
-                                </Button>;
+                                </button>;
                             case AudioState.PLAYING:  
-                                return <Button variant="link" onClick={this.onAudioPlayClick}>
+                                return <button onClick={this.onAudioPlayClick}>
                                     <AiOutlinePauseCircle/>
-                                </Button>;
+                                </button>;
                         }
                     })()}
                 </th>

@@ -60,7 +60,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
 
     render() {
         return (
-            <Container>
+            <section className="Sts">
                 <div className="content-wrapper">
                     <h2 className="tts-title">Text to Speech</h2>
                     <form onSubmit={this.handleSubmit}>
@@ -77,7 +77,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                 <Playlist
                     items={this.props.items}
                 />
-            </Container>
+            </section>
         );
     }
 }
