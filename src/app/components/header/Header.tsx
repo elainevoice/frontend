@@ -6,6 +6,7 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import './Header.scss';
 
 export interface IHeaderProps {
+    checked: boolean;
     onSwitchButtonClick: (checked: boolean) => void;
 }
 
@@ -19,7 +20,7 @@ export default class Header extends Component<IHeaderProps, any> {
 
                 <Navbar.Collapse className="justify-content-end">
                     <BootstrapSwitchButton
-                        checked={true}  // This is always true, so this won't really work well on other routes.
+                        checked={this.props.checked}
                         onlabel="Voice"
                         onstyle="primary"
                         offstyle="primary"

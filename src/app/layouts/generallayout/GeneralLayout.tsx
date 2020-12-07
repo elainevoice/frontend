@@ -13,6 +13,7 @@ class GeneralLayout extends Component<any, any> {
         return (
             <Container>
                 <Header
+                    checked={(this.props.history.location.pathname === '/speech-to-speech') ? true : false}
                     onSwitchButtonClick={(checked: boolean) => {
                         if (checked) {
                             this.props.history.push('/speech-to-speech')
