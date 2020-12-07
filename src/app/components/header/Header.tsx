@@ -12,7 +12,7 @@ export interface IHeaderProps {
 export default class Header extends Component<IHeaderProps, any> {
     render() {
         return (
-            <Navbar variant="light" className="container">
+            <Navbar fixed="top" variant="light" className="container">
                 <Navbar.Brand href="/">
                     El<span className="text-primary">ai</span>ne Voice
                 </Navbar.Brand>

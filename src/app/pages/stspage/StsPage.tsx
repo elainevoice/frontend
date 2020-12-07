@@ -100,7 +100,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
     render() {
         return (
             <section className="Sts">
-                <div id="content-wrapper">
+                <div className="content-wrapper">
                     <h2 className="tts-title">Speech to Speech</h2>
                     <form onSubmit={this.onSpeak}>
                         <Container className="mt-3">

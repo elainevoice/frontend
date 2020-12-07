@@ -17,7 +17,7 @@ export interface IPlayListProps {
 export default class Playlist extends Component<IPlayListProps, any> {
     render() {
         return (
-            <Container>
+            <Container className="audio-playlist-wrapper">
                 <div className="audio-playlist">
                     <hr></hr>
                     <h3>Playlist</h3>
