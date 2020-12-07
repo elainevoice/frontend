@@ -43,6 +43,10 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
         this.audio.addEventListener("ended", this.onAudioFinished);
     }
 
+    private showLimitedTitle = (title: string, limit: number): string => {
+        return title.length > limit ? (title.substring(0, limit) + '...') : title;
+    }
+
     private onAudioPlayClick = () => {
         this.setState({ state: AudioState.PLAYING })
         this.audio.play();
@@ -75,7 +79,7 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
                         }
                     })()}
                 </th>
-                <td>{this.props.title}</td>
+                <td>{this.showLimitedTitle(this.props.title, 10)}</td>
                 <td>{this.props.model}</td>
                 <td>{this.props.vocoder}</td>
                 <td>{this.state.duration}s</td>
