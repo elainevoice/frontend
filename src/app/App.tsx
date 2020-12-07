@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { BrowserRouter, Switch, Redirect, Route as ReactRoute } from 'react-router-dom';
 
-import Route from './modules/RouteModule';
+import { IPlayListItemProps } from './components/playlist/Playlist';
 
 import GeneralLayout from './layouts/generallayout/GeneralLayout';
 
@@ -13,7 +13,28 @@ import './App.scss';
 
 import './themes/light-theme.scss';
 
-export class App extends Component<any, any> {
+export interface IAppState {
+    items: IPlayListItemProps[];
+}
+
+export class App extends Component<any, IAppState> {
+
+    constructor(props: any) {
+        super(props);
+        
+        this.state = {
+            items: []
+        };
+    }
+
+    private onNewItemAdd = (item: IPlayListItemProps):void => {
+        const items = this.state.items.map(s => s);
+        items.push(item)
+        this.setState({
+            items: items
+        })
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -22,8 +43,16 @@ export class App extends Component<any, any> {
                         <Redirect to="/speech-to-speech" />
                     </ReactRoute>
                     <GeneralLayout>
-                        <ReactRoute path="/speech-to-speech" component={StsPage} exact />
-                        <ReactRoute path="/text-to-speech" component={TtsPage} exact />
+                        <ReactRoute 
+                            path="/speech-to-speech" 
+                            render={(props) => <StsPage {...props} items={this.state.items} newItemCallback={this.onNewItemAdd}/>}
+                            exact 
+                        />
+                        <ReactRoute 
+                            path="/text-to-speech" 
+                            render={(props) => <TtsPage {...props} items={this.state.items} newItemCallback={this.onNewItemAdd}/>}
+                            exact 
+                        />
                     </GeneralLayout>
                 </Switch>
             </BrowserRouter>

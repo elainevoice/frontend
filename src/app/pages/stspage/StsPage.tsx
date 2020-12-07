@@ -10,21 +10,24 @@ import Playlist from "../../components/playlist/Playlist";
 
 import './StsPage.scss';
 
-export interface IRecordState {
+export interface IStsPageProps {
+    items: IPlayListItemProps[];
+    newItemCallback: (item: IPlayListItemProps) => void;
+}
+
+export interface IStsPageState {
     record?: boolean;
     blobURL?: any;
     recordedBlob?: any;
-    items: IPlayListItemProps[];
 }
 
-export default class StsPage extends Component<any, IRecordState> {
+export default class StsPage extends Component<IStsPageProps, IStsPageState> {
 
     constructor(props: any) {
         super(props);
         
         this.state = {
             record: false,
-            items: []
         };
     }
 
@@ -56,16 +59,12 @@ export default class StsPage extends Component<any, IRecordState> {
 
                 const title = new Date().toString();
 
-                const items = this.state.items.map(s => s);
-                items.push({
+                this.props.newItemCallback({
                     title,
                     url,
                     model: 'Whistling',
                     vocoder: 'GriffinLim'
-                })
-                this.setState({
-                    items: items
-                })
+                });
             }
         )
     };
@@ -154,7 +153,7 @@ export default class StsPage extends Component<any, IRecordState> {
                         }
                     </form>
                     <Playlist
-                        items={this.state.items}
+                        items={this.props.items}
                     />
                 </div>
             </section>

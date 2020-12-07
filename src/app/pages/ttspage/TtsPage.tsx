@@ -8,12 +8,16 @@ import Playlist from "../../components/playlist/Playlist";
 
 import SpeechProvider from '../../providers/SpeechProvider';
 
-export interface ITtsPageState {
-    value: string;
+export interface ITtsPageProps {
     items: IPlayListItemProps[];
+    newItemCallback: (item: IPlayListItemProps) => void;
 }
 
-export default class TtsPage extends Component<any, ITtsPageState> {
+export interface ITtsPageState {
+    value: string;
+}
+
+export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     playing: boolean;
 
     constructor(props: any) {
@@ -22,8 +26,7 @@ export default class TtsPage extends Component<any, ITtsPageState> {
         this.playing = false;
 
         this.state = {
-            value: '',
-            items: []
+            value: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -43,16 +46,12 @@ export default class TtsPage extends Component<any, ITtsPageState> {
 
                 const title = savedText ?? new Date().toString();
 
-                const items = this.state.items.map(s => s);
-                items.push({
+                this.props.newItemCallback({
                     title,
                     url,
                     model: 'Whistling',
                     vocoder: 'GriffinLim'
-                })
-                this.setState({
-                    items: items
-                })
+                });
             }
         )
 
@@ -76,7 +75,7 @@ export default class TtsPage extends Component<any, ITtsPageState> {
                     </form>
                 </div>
                 <Playlist
-                    items={this.state.items}
+                    items={this.props.items}
                 />
             </Container>
         );
