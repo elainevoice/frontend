@@ -44,19 +44,16 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
     }
 
     private onAudioPlayClick = () => {
-        console.log("PLAY")
         this.setState({ state: AudioState.PLAYING })
         this.audio.play();
     }
 
     private onAudioPauseClick = () => {
-        console.log("PAUSE")
         this.setState({ state: AudioState.PAUSED })
         this.audio.pause();
     }
 
     private onAudioFinished = () => {
-        console.log("FINISHED")
         this.setState({ state: AudioState.IDLE })
     }
 
