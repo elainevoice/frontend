@@ -9,6 +9,8 @@ import Playlist from "../../components/playlist/Playlist";
 import SpeechProvider from '../../providers/SpeechProvider';
 
 import ModelSelector from '../../components/model_selector/ModelSelector';
+import {Model} from '../../providers/SpeechProvider'
+
 export interface ITtsPageProps {
     items: IPlayListItemProps[];
     newItemCallback: (item: IPlayListItemProps) => void;
@@ -16,6 +18,7 @@ export interface ITtsPageProps {
 
 export interface ITtsPageState {
     value: string;
+    selected_model: string;
 }
 
 export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
@@ -27,7 +30,8 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
         this.playing = false;
 
         this.state = {
-            value: ''
+            value: '',
+            selected_model: 'ljspeech'
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -40,8 +44,9 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
 
     handleSubmit(event: any) {
         var savedText = this.state.value;
+        let selectedModel : string = this.state.selected_model;
         
-        SpeechProvider.requestSpeechByText(savedText).subscribe(
+        SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
 
@@ -50,13 +55,18 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                 this.props.newItemCallback({
                     title,
                     url,
-                    model: 'Whistling',
+                    model: selectedModel,
                     vocoder: 'GriffinLim'
                 });
             }
         )
 
         event.preventDefault();
+    }
+
+    public setSelectedModelState = (value: string) =>{
+        console.log(value)
+        this.setState({selected_model: value})
     }
 
     render() {
@@ -71,29 +81,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                             value={this.state.value}
                             onChange={this.handleChange}
                         />
-                        {
-                            //Uitgecomment tot we iets hebben om te kiezen
-                            /*<div className="options-wrapper">
-                            <select defaultValue="whistling" name="models" id="models" className="select-btn">
-                                <option value="" disabled>
-                                    Select a model...
-                                </option>
-                                <option value="whistling">Whistling</option>
-                                <option value="xhosa" disabled>
-                                    Xhosa
-                                </option>
-                                <option value="human" disabled>
-                                    Human
-                                </option>
-                            </select>
-                            <select defaultValue="griffinlim" name="vocoders" id="vocoders" className="select-btn">
-                                <option value="" disabled>
-                                    Select a vocoder...
-                                </option>
-                                <option value="griffinlim">GriffinLim</option>
-                            </select>
-                        </div>*/
-                        }
+                        <ModelSelector setSelectedModelState={this.setSelectedModelState} />
                         <br></br>
                         <input className="translate-btn" type="submit" value="Translate" />
                     </form>

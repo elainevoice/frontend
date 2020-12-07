@@ -6,19 +6,24 @@ declare const process: {
     env: any
 }
 
+export enum Model {
+    LJSPEECH = 'ljspeech',
+    WHISTLE = 'whistle'
+}
+
 // This would be better as an injectable.
 export default class SpeechProvider {
     private static ENDPOINT_SPEECH_BY_TEXT = '/taco';
     private static ENDPOINT_SPEECH_BY_AUDIO = '/taco_audio';
 
-    public static requestSpeechByText(text: string): Observable<any> {
-        var headers = {'model': 'ljspeech' }
+    public static requestSpeechByText(text: string, model: Model): Observable<any> {
+        var headers = {'model': model }
         const data = { text }
         return SpeechProvider.request(SpeechProvider.ENDPOINT_SPEECH_BY_TEXT, data, headers);
     }
 
-    public static requestSpeechByAudio(audio: any): Observable<any> {
-        var headers = { 'content-type': 'multipart/form-data', 'model': 'ljspeech' }
+    public static requestSpeechByAudio(audio: any, model: Model): Observable<any> {
+        var headers = { 'content-type': 'multipart/form-data', 'model': model }
         return SpeechProvider.request(SpeechProvider.ENDPOINT_SPEECH_BY_AUDIO, audio, headers);
     }
 

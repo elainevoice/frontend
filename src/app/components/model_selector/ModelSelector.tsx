@@ -3,10 +3,13 @@ import React, { Component } from 'react';
 import Loader from '../loader/Loader.jsx';
 import './ModelSelector.scss';
 
-
 import ModelProvider from '../../providers/ModelProvider';
 
-export default class ModelSelector extends Component<any, any> {
+export interface IModelSelectorProps{
+    setSelectedModelState: (value: string) => void;
+}
+
+export default class ModelSelector extends Component<IModelSelectorProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -30,6 +33,11 @@ export default class ModelSelector extends Component<any, any> {
         await this.set_data();
     }
 
+    valueChange = (e: any) =>{
+        e.preventDefault()
+        this.props.setSelectedModelState(e.target.value);
+    }
+
     render() {
         let content = null
         if (this.state.loading === true){
@@ -43,45 +51,12 @@ export default class ModelSelector extends Component<any, any> {
             })
 
             content = <div className="model-selector">
-                            <select className='select-btn'>
+                            <select className='select-btn' onChange={this.valueChange}>
                                 {options}
                             </select>
                         </div>
         }
 
         return content
-
-        // return (
-        //     <div className="ModelSelector">
-        //         <select defaultValue="whistling" name="models" id="models" className="options">
-        //             <option value="" disabled>
-        //                 Select a model
-        //             </option>
-        //             <option value="whistling">Whistling</option>
-        //             <option value="xhosa" disabled>
-        //                 Xhosa
-        //             </option>
-        //             <option value="human" disabled>
-        //                 Human
-        //             </option>
-        //         </select>{content}
-        //     </div>
-        // );
     }
-    // {torrents.data.map((torrent) => {
-    //     return (
-    //       <tr
-    //         key={torrent.id}
-    //         onClick={() => {
-    //           setModalTorrent(torrent);
-
-    //           setModalShow(true);
-    //         }}
-    //       >
-    //         <td>{torrent.id}</td>
-    //         <td>{torrent.magnet} </td>
-    //         <td>{torrent.contributor_id}</td>
-    //       </tr>
-    //     );
-    //   })}
 }

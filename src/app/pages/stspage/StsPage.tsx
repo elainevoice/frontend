@@ -10,6 +10,9 @@ import Playlist from "../../components/playlist/Playlist";
 
 import './StsPage.scss';
 
+import ModelSelector from '../../components/model_selector/ModelSelector';
+import {Model} from '../../providers/SpeechProvider'
+
 export interface IStsPageProps {
     items: IPlayListItemProps[];
     newItemCallback: (item: IPlayListItemProps) => void;
@@ -19,6 +22,7 @@ export interface IStsPageState {
     record?: boolean;
     blobURL?: any;
     recordedBlob?: any;
+    selected_model: string;
 }
 
 export default class StsPage extends Component<IStsPageProps, IStsPageState> {
@@ -28,6 +32,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
         
         this.state = {
             record: false,
+            selected_model: 'ljspeech',
         };
     }
 
@@ -53,7 +58,9 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
     };
 
     handleSubmit = (fd: FormData) => {
-        SpeechProvider.requestSpeechByAudio(fd).subscribe(
+        let selectedModel : string = this.state.selected_model;
+
+        SpeechProvider.requestSpeechByAudio(fd, selectedModel as Model).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
 
@@ -62,7 +69,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                 this.props.newItemCallback({
                     title,
                     url,
-                    model: 'Whistling',
+                    model: selectedModel,
                     vocoder: 'GriffinLim'
                 });
             }
@@ -97,6 +104,10 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
         }
     };
 
+    public setSelectedModelState = (value: string) =>{
+        this.setState({selected_model: value})
+    }
+
     render() {
         return (
             <section className="Sts">
@@ -123,35 +134,8 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                                 </label>
                             </div>
                         </Container>
-
-                        {
-                            //Uitgecomment tot we iets hebben om te kiezen
-                            /*<div className="container mt-3">
-                            <div className="d-flex justify-content-center mb-3">
-                                <div className="options-wrapper">
-                                    <select defaultValue="whistling" name="models" id="models" className="options">
-                                        <option value="" disabled>
-                                            Select a model
-                                        </option>
-                                        <option value="whistling">Whistling</option>
-                                        <option value="xhosa" disabled>
-                                            Xhosa
-                                        </option>
-                                        <option value="human" disabled>
-                                            Human
-                                        </option>
-                                    </select>
-                                    <select defaultValue="griffinlim" name="vocoders" id="vocoders" className="options">
-                                        <option value="" disabled>
-                                            Select a vocoder
-                                        </option>
-                                        <option value="griffinlim">GriffinLim</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>*/
-                        }
                     </form>
+                    <ModelSelector setSelectedModelState={this.setSelectedModelState} />
                     <Playlist
                         items={this.props.items}
                     />
