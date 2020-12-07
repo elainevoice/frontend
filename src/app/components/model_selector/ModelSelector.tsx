@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
 import Loader from '../loader/Loader.jsx';
+import './ModelSelector.scss';
+
 
 import ModelProvider from '../../providers/ModelProvider';
 
@@ -16,7 +18,6 @@ export default class ModelSelector extends Component<any, any> {
     async set_data() {
         ModelProvider.request().subscribe(
             (result: any) => {
-                console.log(result)
                 this.setState({
                     data : result,
                     loading : false
@@ -37,12 +38,12 @@ export default class ModelSelector extends Component<any, any> {
         else {
             let options = this.state.data.map((model: any) => {
                 return (
-                    <option value={model}>{model}</option>
+                    <option value={model} key={model}>{model}</option>
                 )
             })
 
-            content = <div className="ModelSelector">
-                            <select>
+            content = <div className="model-selector">
+                            <select className='select-btn'>
                                 {options}
                             </select>
                         </div>
