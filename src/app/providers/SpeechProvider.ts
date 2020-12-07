@@ -24,7 +24,7 @@ export default class SpeechProvider {
     private static request(path: string, data: any, headers?: any): Observable<any> {
         return Observable.create((observer: any) => {
             Axios({
-                url: 'http://localhost:8000/api' + path,
+                url: process.env.REACT_APP_API + path,
                 method: 'POST',
                 responseType: 'blob',
                 headers,
