@@ -79,7 +79,7 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
                         }
                     })()}
                 </th>
-                <td>{this.showLimitedTitle(this.props.title, 10)}</td>
+                <td>{this.showLimitedTitle(this.props.title, 25)}</td>
                 <td>{this.props.model}</td>
                 <td>{this.props.vocoder}</td>
                 <td>{this.state.duration}s</td>
