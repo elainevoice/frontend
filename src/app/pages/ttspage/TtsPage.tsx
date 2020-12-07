@@ -2,21 +2,32 @@ import React, { Component } from 'react';
 
 import './TtsPage.scss';
 import { Container } from 'react-bootstrap';
-import Playlist from '../../components/playlist/Playlist';
+import { IPlayListItemProps } from '../../components/playlist/Playlist';
+
+import Playlist from "../../components/playlist/Playlist";
 
 import SpeechProvider from '../../providers/SpeechProvider';
 
 import ModelSelector from '../../components/model_selector/ModelSelector';
+export interface ITtsPageProps {
+    items: IPlayListItemProps[];
+    newItemCallback: (item: IPlayListItemProps) => void;
+}
 
-export default class TtsPage extends Component<{}, { value: string }> {
+export interface ITtsPageState {
+    value: string;
+}
+
+export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     playing: boolean;
 
     constructor(props: any) {
         super(props);
 
         this.playing = false;
+
         this.state = {
-            value: '',
+            value: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -33,7 +44,15 @@ export default class TtsPage extends Component<{}, { value: string }> {
         SpeechProvider.requestSpeechByText(savedText).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-                Playlist.addRow(url, savedText);
+
+                const title = savedText ?? new Date().toString();
+
+                this.props.newItemCallback({
+                    title,
+                    url,
+                    model: 'Whistling',
+                    vocoder: 'GriffinLim'
+                });
             }
         )
 
@@ -42,8 +61,8 @@ export default class TtsPage extends Component<{}, { value: string }> {
 
     render() {
         return (
-            <Container>
-                <div id="content-wrapper">
+            <section className="Sts">
+                <div className="content-wrapper">
                     <h2 className="tts-title">Text to Speech</h2>
                     <form onSubmit={this.handleSubmit}>
                         <textarea
@@ -52,7 +71,6 @@ export default class TtsPage extends Component<{}, { value: string }> {
                             value={this.state.value}
                             onChange={this.handleChange}
                         />
-                        <ModelSelector />
                         {
                             //Uitgecomment tot we iets hebben om te kiezen
                             /*<div className="options-wrapper">
@@ -80,7 +98,10 @@ export default class TtsPage extends Component<{}, { value: string }> {
                         <input className="translate-btn" type="submit" value="Translate" />
                     </form>
                 </div>
-            </Container>
+                <Playlist
+                    items={this.props.items}
+                />
+            </section>
         );
     }
 }

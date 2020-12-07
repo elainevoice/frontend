@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import SpeechProvider from '../../providers/SpeechProvider';
+import { IPlayListItemProps } from '../../components/playlist/Playlist';
 
 import { Button, Container } from 'react-bootstrap';
 import { ReactMic } from 'react-mic';
-import Playlist from '../playlist/Playlist';
-import './Record.scss';
 
-export class Record extends React.Component<any, any> {
+import Playlist from "../../components/playlist/Playlist";
+
+import './StsPage.scss';
+
+export interface IStsPageProps {
+    items: IPlayListItemProps[];
+    newItemCallback: (item: IPlayListItemProps) => void;
+}
+
+export interface IStsPageState {
+    record?: boolean;
+    blobURL?: any;
+    recordedBlob?: any;
+}
+
+export default class StsPage extends Component<IStsPageProps, IStsPageState> {
+
     constructor(props: any) {
         super(props);
+        
         this.state = {
             record: false,
         };
@@ -40,7 +56,15 @@ export class Record extends React.Component<any, any> {
         SpeechProvider.requestSpeechByAudio(fd).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-                Playlist.addRow(url, undefined);
+
+                const title = new Date().toString();
+
+                this.props.newItemCallback({
+                    title,
+                    url,
+                    model: 'Whistling',
+                    vocoder: 'GriffinLim'
+                });
             }
         )
     };
@@ -50,8 +74,8 @@ export class Record extends React.Component<any, any> {
         fd.append('file', this.state.recordedBlob.blob);
         this.handleSubmit(fd);
     };
+
     onFileChange = (event: any) => {
-        //this.setState({ selectedFile: event.target.files[0] });
         const fd = new FormData();
         fd.append('file', event.target.files[0]);
         this.handleSubmit(fd);
@@ -64,21 +88,22 @@ export class Record extends React.Component<any, any> {
                     Stop recording
                 </Button>
             );
+        } else {
+            return (
+                <Button onClick={this.startRecording} variant="custom">
+                    Start recording
+                </Button>
+            );
         }
-        return (
-            <Button onClick={this.startRecording} variant="custom">
-                Start recording
-            </Button>
-        );
     };
 
     render() {
         return (
-            <Container>
-                <div id="content-wrapper">
+            <section className="Sts">
+                <div className="content-wrapper">
                     <h2 className="tts-title">Speech to Speech</h2>
                     <form onSubmit={this.onSpeak}>
-                        <div className="container mt-3">
+                        <Container className="mt-3">
                             <div className="d-flex justify-content-center mb-3">
                                 <ReactMic
                                     record={this.state.record}
@@ -89,15 +114,15 @@ export class Record extends React.Component<any, any> {
                                     backgroundColor="white"
                                 />
                             </div>
-                        </div>
-                        <div className="container mt-3">
+                        </Container>
+                        <Container className="mt-3">
                             <div className="d-flex justify-content-center mb-3">
                                 <this.recordButton />
                                 <label className="btn btn-custom">
                                     Upload <input type="file" onChange={this.onFileChange} hidden />
                                 </label>
                             </div>
-                        </div>
+                        </Container>
 
                         {
                             //Uitgecomment tot we iets hebben om te kiezen
@@ -127,8 +152,11 @@ export class Record extends React.Component<any, any> {
                         </div>*/
                         }
                     </form>
+                    <Playlist
+                        items={this.props.items}
+                    />
                 </div>
-            </Container>
+            </section>
         );
     }
 }
