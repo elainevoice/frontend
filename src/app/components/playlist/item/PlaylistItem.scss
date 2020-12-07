@@ -1,0 +1,25 @@
+.audio-playlist-item {
+    th[scope=row] {
+        display: flex;
+
+        flex-grow: 1;
+
+        align-items: center;
+        justify-content: center;
+
+        button {
+            height: 22px;
+            display: flex;
+            
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+            border: 0;
+
+            &:focus {
+                outline: 0 !important;
+            }
+        }
+    }
+}

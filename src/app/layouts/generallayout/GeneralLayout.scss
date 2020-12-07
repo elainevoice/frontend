@@ -18,10 +18,17 @@ h4 {
     font-weight: bold !important;
 }
 
-.yellow {
-    color: #ffd32a;
-}
+.container {
+    display: flex;
+    justify-content: center;
 
-.green {
-    color: #0be881;
+    main {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        > section {
+            flex: 1;
+        }
+    }
 }

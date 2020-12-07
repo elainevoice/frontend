@@ -1,21 +1,34 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';  
 
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
+import { Container } from "react-bootstrap";
+
+import Header from "../../components/header/Header";
 
 import "./GeneralLayout.scss";
 
-export default class GeneralLayout extends Component<{}, {}> {
+class GeneralLayout extends Component<any, any> {
+
     render() {
         return (
-            <Container fluid>
-                <Navbar>
-                    <Navbar.Brand href="/">
-                        El<span className="yellow">ai</span>ne Voice
-                    </Navbar.Brand>
-                </Navbar>
-                {this.props.children}
+            <Container>
+                <Header
+                    checked={(this.props.history.location.pathname === '/speech-to-speech') ? true : false}
+                    onSwitchButtonClick={(checked: boolean) => {
+                        if (checked) {
+                            this.props.history.push('/speech-to-speech')
+                        } else {
+                            this.props.history.push('/text-to-speech')
+                        }
+                    }}
+                />
+
+                <main>
+                    {this.props.children}
+                </main>
             </Container>
         );
     }
 }
+
+export default withRouter(GeneralLayout)
