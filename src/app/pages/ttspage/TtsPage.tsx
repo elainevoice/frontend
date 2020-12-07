@@ -55,7 +55,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                 this.props.newItemCallback({
                     title,
                     url,
-                    model: selectedModel,
+                    model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
                     vocoder: 'GriffinLim'
                 });
             }

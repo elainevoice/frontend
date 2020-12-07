@@ -69,7 +69,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                 this.props.newItemCallback({
                     title,
                     url,
-                    model: selectedModel,
+                    model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
                     vocoder: 'GriffinLim'
                 });
             }
