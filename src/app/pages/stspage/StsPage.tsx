@@ -91,7 +91,6 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                 });
             },
             async (error) => {
-                console.log(error);
                 let errorStr = 'Something went wrong.';
                 if (error?.response?.data?.text()) {
                     const errorText = await error.response.data.text();
@@ -135,7 +134,6 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
     };
 
     renderError = () => {
-        console.log(this.state.error);
         if (this?.state?.error) {
             return (
                 <Alert variant="danger" onClose={() => this.setState({ error: undefined })} dismissible>
