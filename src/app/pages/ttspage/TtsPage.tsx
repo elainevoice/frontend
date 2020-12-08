@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import SpeechProvider from '../../providers/SpeechProvider';
 import { ScaleLoader } from 'react-spinners';
-import { Alert, Container } from 'react-bootstrap';
-import { css } from '@emotion/core';
+import { Alert } from 'react-bootstrap';
 
 import './TtsPage.scss';
 
 import { IPlayListItemProps } from '../../components/playlist/Playlist';
 import Playlist from '../../components/playlist/Playlist';
+import SpeechProvider from '../../providers/SpeechProvider';
+
+import ModelSelector from '../../components/model_selector/ModelSelector';
+import { Model } from '../../providers/SpeechProvider';
 
 export interface ITtsPageProps {
     items: IPlayListItemProps[];
@@ -18,13 +20,8 @@ export interface ITtsPageState {
     value: string;
     loading: boolean;
     error?: string;
+    selected_model: string;
 }
-
-const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: red;
-`;
 
 export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     playing: boolean;
@@ -38,6 +35,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
             value: '',
             loading: false,
             error: undefined,
+            selected_model: Model.LJSPEECH,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -59,19 +57,18 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
             error: undefined,
         });
 
-        var savedText = this.state.value;
+        let savedText = this.state.value;
+        let selectedModel: string = this.state.selected_model;
 
-        SpeechProvider.requestSpeechByText(savedText).subscribe(
+        SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-
                 const title = savedText ?? new Date().toString();
-
                 this.props.newItemCallback({
                     title,
                     url,
-                    model: 'Whistling',
-                    vocoder: 'GriffinLim',
+                    model: selectedModel,
+                    vocoder: 'GriffinLim'
                 });
 
                 this.setState({
@@ -96,6 +93,10 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
         event.preventDefault();
     }
 
+    public setSelectedModelState = (value: string) => {
+        this.setState({ selected_model: value });
+    };
+
     renderError = () => {
         if (this?.state?.error) {
             return (
@@ -119,6 +120,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                             value={this.state.value}
                             onChange={this.handleChange}
                         />
+                        <ModelSelector setSelectedModelState={this.setSelectedModelState} />
                         <br></br>
                         <input className="translate-btn" type="submit" value="Translate" />
                     </form>
@@ -126,7 +128,6 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                 <div className="container mt-3">
                     <div className="d-flex justify-content-center mb-3">
                         <ScaleLoader
-                            css={override}
                             height={20}
                             width={4}
                             radius={2}
