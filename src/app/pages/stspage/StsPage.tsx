@@ -81,7 +81,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                 this.props.newItemCallback({
                     title,
                     url,
-                    model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
+                    model: selectedModel,
                     vocoder: 'GriffinLim',
                 });
 
@@ -166,6 +166,11 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                             </div>
                         </Container>
                         <Container className="mt-3">
+                            <div className="container">
+                                <ModelSelector setSelectedModelState={this.setSelectedModelState} />
+                            </div>
+                        </Container>
+                        <Container className="mt-3">
                             <div className="d-flex justify-content-center mb-3">
                                 <this.recordButton />
                                 <label className="btn btn-custom">
@@ -173,11 +178,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                                 </label>
                             </div>
                         </Container>
-                        <Container className="mt-3">
-                            <div className="container">
-                                <ModelSelector setSelectedModelState={this.setSelectedModelState} />
-                            </div>
-                        </Container>
+                        
                         <Container className="mt-3">
                             <div className="container mt-3">
                                 <div className="d-flex justify-content-center mb-3">

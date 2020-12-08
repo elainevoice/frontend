@@ -57,7 +57,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
             error: undefined,
         });
 
-        var savedText = this.state.value;
+        let savedText = this.state.value;
         let selectedModel: string = this.state.selected_model;
 
         SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
@@ -69,8 +69,8 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                 this.props.newItemCallback({
                     title,
                     url,
-                    model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
-                    vocoder: 'GriffinLim',
+                    model: selectedModel,
+                    vocoder: 'GriffinLim'
                 });
 
                 this.setState({

@@ -1,6 +1,5 @@
-import Axios from 'axios';
 import React, { Component } from 'react';
-import Loader from '../loader/Loader.jsx';
+import { ScaleLoader } from 'react-spinners';
 import './ModelSelector.scss';
 
 import ModelProvider from '../../providers/ModelProvider';
@@ -39,24 +38,32 @@ export default class ModelSelector extends Component<IModelSelectorProps, any> {
     }
 
     render() {
-        let content = null
         if (this.state.loading === true){
-            content = <div><Loader /></div>
+            return  <div className="container mt-3">
+                        <div className="d-flex justify-content-center mb-3">
+                            <ScaleLoader
+                                height={20}
+                                width={4}
+                                radius={2}
+                                margin={2}
+                                color={'#0be881'}
+                                loading={this.state.loading}
+                            />
+                        </div>
+                    </div>
         }
         else {
-            let options = this.state.data.map((model: any) => {
+            let options = this.state.data.map((model: string) => {
                 return (
                     <option value={model} key={model}>{model.charAt(0).toUpperCase() + model.slice(1)}</option>
                 )
             })
 
-            content = <div className="model-selector">
+            return <div className="model-selector">
                             <select className='select-btn' onChange={this.valueChange}>
                                 {options}
                             </select>
                         </div>
         }
-
-        return content
     }
 }

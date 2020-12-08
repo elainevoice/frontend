@@ -17,13 +17,13 @@ export default class SpeechProvider {
     private static ENDPOINT_SPEECH_BY_AUDIO = '/taco_audio';
 
     public static requestSpeechByText(text: string, model: Model): Observable<any> {
-        var headers = {'model': model }
+        const headers = {'model': model }
         const data = { text }
         return SpeechProvider.request(SpeechProvider.ENDPOINT_SPEECH_BY_TEXT, data, headers);
     }
 
     public static requestSpeechByAudio(audio: any, model: Model): Observable<any> {
-        var headers = { 'content-type': 'multipart/form-data', 'model': model }
+        const headers = { 'content-type': 'multipart/form-data', 'model': model }
         return SpeechProvider.request(SpeechProvider.ENDPOINT_SPEECH_BY_AUDIO, audio, headers);
     }
 
