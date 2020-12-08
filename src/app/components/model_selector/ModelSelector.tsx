@@ -46,7 +46,7 @@ export default class ModelSelector extends Component<IModelSelectorProps, any> {
         else {
             let options = this.state.data.map((model: any) => {
                 return (
-                    <option value={model} key={model}>{model.toUpperCase() + model.slice(1)}</option>
+                    <option value={model} key={model}>{model.charAt(0).toUpperCase() + model.slice(1)}</option>
                 )
             })
 
