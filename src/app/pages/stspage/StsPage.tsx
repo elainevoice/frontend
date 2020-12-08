@@ -5,7 +5,6 @@ import { IPlayListItemProps } from '../../components/playlist/Playlist';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import { Button, Container } from 'react-bootstrap';
 import { ReactMic } from 'react-mic';
-import { css } from '@emotion/core';
 import Alert from 'react-bootstrap/Alert';
 
 import Playlist from '../../components/playlist/Playlist';
@@ -14,12 +13,6 @@ import './StsPage.scss';
 
 import ModelSelector from '../../components/model_selector/ModelSelector';
 import { Model } from '../../providers/SpeechProvider';
-
-const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: red;
-`;
 
 export interface IStsPageProps {
     items: IPlayListItemProps[];
@@ -189,7 +182,6 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                             <div className="container mt-3">
                                 <div className="d-flex justify-content-center mb-3">
                                     <ScaleLoader
-                                        css={override}
                                         height={20}
                                         width={4}
                                         radius={2}

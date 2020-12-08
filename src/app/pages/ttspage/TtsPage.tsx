@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ScaleLoader } from 'react-spinners';
-import { Alert, Container } from 'react-bootstrap';
-import { css } from '@emotion/core';
+import { Alert } from 'react-bootstrap';
 
 import './TtsPage.scss';
 
@@ -10,7 +9,7 @@ import Playlist from '../../components/playlist/Playlist';
 import SpeechProvider from '../../providers/SpeechProvider';
 
 import ModelSelector from '../../components/model_selector/ModelSelector';
-import {Model} from '../../providers/SpeechProvider'
+import { Model } from '../../providers/SpeechProvider';
 
 export interface ITtsPageProps {
     items: IPlayListItemProps[];
@@ -24,12 +23,6 @@ export interface ITtsPageState {
     selected_model: string;
 }
 
-const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: red;
-`;
-
 export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     playing: boolean;
 
@@ -42,7 +35,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
             value: '',
             loading: false,
             error: undefined,
-            selected_model: 'ljspeech'
+            selected_model: 'ljspeech',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -66,7 +59,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
 
         var savedText = this.state.value;
         let selectedModel: string = this.state.selected_model;
-        
+
         SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
@@ -77,7 +70,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                     title,
                     url,
                     model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
-                    vocoder: 'GriffinLim'
+                    vocoder: 'GriffinLim',
                 });
 
                 this.setState({
@@ -102,9 +95,9 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
         event.preventDefault();
     }
 
-    public setSelectedModelState = (value: string) =>{
-        this.setState({selected_model: value})
-    }
+    public setSelectedModelState = (value: string) => {
+        this.setState({ selected_model: value });
+    };
 
     renderError = () => {
         if (this?.state?.error) {
@@ -137,7 +130,6 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                 <div className="container mt-3">
                     <div className="d-flex justify-content-center mb-3">
                         <ScaleLoader
-                            css={override}
                             height={20}
                             width={4}
                             radius={2}
