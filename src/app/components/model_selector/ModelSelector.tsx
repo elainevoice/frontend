@@ -60,10 +60,10 @@ export default class ModelSelector extends Component<IModelSelectorProps, any> {
             })
 
             return <div className="model-selector">
-                            <select className='select-btn' onChange={this.valueChange}>
-                                {options}
-                            </select>
-                        </div>
+                        <select className='select-btn' onChange={this.valueChange}>
+                            {options}
+                        </select>
+                    </div>
         }
     }
 }

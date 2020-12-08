@@ -34,7 +34,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
 
         this.state = {
             record: false,
-            selected_model: 'ljspeech',
+            selected_model: Model.LJSPEECH,
             loading: false,
         };
     }
@@ -75,9 +75,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
         SpeechProvider.requestSpeechByAudio(fd, selectedModel as Model).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-
                 const title = new Date().toString();
-
                 this.props.newItemCallback({
                     title,
                     url,

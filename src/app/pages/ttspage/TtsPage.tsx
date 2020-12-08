@@ -35,7 +35,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
             value: '',
             loading: false,
             error: undefined,
-            selected_model: 'ljspeech',
+            selected_model: Model.LJSPEECH,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -63,9 +63,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
         SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
             (result: any) => {
                 const url = window.URL.createObjectURL(new Blob([result]));
-
                 const title = savedText ?? new Date().toString();
-
                 this.props.newItemCallback({
                     title,
                     url,
