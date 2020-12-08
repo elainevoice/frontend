@@ -2,16 +2,24 @@ import React, { Component } from 'react';
 
 import SpeechProvider from '../../providers/SpeechProvider';
 import { IPlayListItemProps } from '../../components/playlist/Playlist';
-
+import ScaleLoader from 'react-spinners/ScaleLoader';
 import { Button, Container } from 'react-bootstrap';
 import { ReactMic } from 'react-mic';
+import { css } from '@emotion/core';
+import Alert from 'react-bootstrap/Alert';
 
-import Playlist from "../../components/playlist/Playlist";
+import Playlist from '../../components/playlist/Playlist';
 
 import './StsPage.scss';
 
 import ModelSelector from '../../components/model_selector/ModelSelector';
 import {Model} from '../../providers/SpeechProvider'
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
 
 export interface IStsPageProps {
     items: IPlayListItemProps[];
@@ -22,17 +30,19 @@ export interface IStsPageState {
     record?: boolean;
     blobURL?: any;
     recordedBlob?: any;
+    loading: boolean;
+    error?: string;
     selected_model: string;
 }
 
 export default class StsPage extends Component<IStsPageProps, IStsPageState> {
-
     constructor(props: any) {
         super(props);
-        
+
         this.state = {
             record: false,
             selected_model: 'ljspeech',
+            loading: false,
         };
     }
 
@@ -59,6 +69,15 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
 
     handleSubmit = (fd: FormData) => {
         let selectedModel : string = this.state.selected_model;
+        // Dont spam requests.
+        if (this.state.loading === true) {
+            return;
+        }
+
+        this.setState({
+            loading: true,
+            error: undefined,
+        });
 
         SpeechProvider.requestSpeechByAudio(fd, selectedModel as Model).subscribe(
             (result: any) => {
@@ -72,8 +91,24 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                     model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
                     vocoder: 'GriffinLim'
                 });
+
+                this.setState({
+                    loading: false,
+                });
+            },
+            async (error) => {
+                let errorStr = 'Something went wrong.';
+                if (error?.response?.data?.text()) {
+                    const errorText = await error.response.data.text();
+                    let errorObj = JSON.parse(errorText);
+                    errorStr = errorObj['detail'];
+                }
+                this.setState({
+                    loading: false,
+                    error: errorStr,
+                });
             }
-        )
+        );
     };
 
     onSpeak = () => {
@@ -108,6 +143,17 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
         this.setState({selected_model: value})
     }
 
+    renderError = () => {
+        if (this?.state?.error) {
+            return (
+                <Alert variant="danger" onClose={() => this.setState({ error: undefined })} dismissible>
+                    <p>{this.state.error}</p>
+                </Alert>
+            );
+        }
+        return <div></div>;
+    };
+
     render() {
         return (
             <section className="Sts">
@@ -130,8 +176,24 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                             <div className="d-flex justify-content-center mb-3">
                                 <this.recordButton />
                                 <label className="btn btn-custom">
-                                    Upload <input type="file" onChange={this.onFileChange} hidden />
+                                    Upload <input type="file" accept=".wav" onChange={this.onFileChange} hidden />
                                 </label>
+                            </div>
+                        </Container>
+                        <Container className="mt-3">
+                            <div className="container mt-3">
+                                <div className="d-flex justify-content-center mb-3">
+                                    <ScaleLoader
+                                        css={override}
+                                        height={20}
+                                        width={4}
+                                        radius={2}
+                                        margin={2}
+                                        color={'#0be881'}
+                                        loading={this.state.loading}
+                                    />
+                                    <this.renderError />
+                                </div>
                             </div>
                         </Container>
                     </form>

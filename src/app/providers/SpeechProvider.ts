@@ -34,9 +34,11 @@ export default class SpeechProvider {
                 method: 'POST',
                 responseType: 'blob',
                 headers,
-                data 
+                data,
             }).then((response: any) => {
                 observer.next(response.data);
+            }).catch((error: any) => {
+                observer.error(error);
             })
         })
     }

@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import SpeechProvider from '../../providers/SpeechProvider';
+import { ScaleLoader } from 'react-spinners';
+import { Alert, Container } from 'react-bootstrap';
+import { css } from '@emotion/core';
 
 import './TtsPage.scss';
-import { Container } from 'react-bootstrap';
+
 import { IPlayListItemProps } from '../../components/playlist/Playlist';
+import Playlist from '../../components/playlist/Playlist';
 
 import Playlist from "../../components/playlist/Playlist";
 
@@ -18,8 +23,16 @@ export interface ITtsPageProps {
 
 export interface ITtsPageState {
     value: string;
+    loading: boolean;
+    error?: string;
     selected_model: string;
 }
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
 
 export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     playing: boolean;
@@ -31,6 +44,8 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
 
         this.state = {
             value: '',
+            loading: false,
+            error: undefined,
             selected_model: 'ljspeech'
         };
 
@@ -43,8 +58,18 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     }
 
     handleSubmit(event: any) {
+        // Dont spam requests.
+        if (this.state.loading === true) {
+            return;
+        }
+
+        this.setState({
+            loading: true,
+            error: undefined,
+        });
+
         var savedText = this.state.value;
-        let selectedModel : string = this.state.selected_model;
+        let selectedModel: string = this.state.selected_model;
         
         SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
             (result: any) => {
@@ -58,8 +83,25 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                     model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
                     vocoder: 'GriffinLim'
                 });
+
+                this.setState({
+                    loading: false,
+                });
+            },
+            async (error: any) => {
+                let errorStr = 'Something went wrong.';
+                if (error?.response?.data?.text()) {
+                    const errorText = await error.response.data.text();
+                    let errorObj = JSON.parse(errorText);
+                    errorStr = errorObj['detail'];
+                }
+
+                this.setState({
+                    loading: false,
+                    error: errorStr,
+                });
             }
-        )
+        );
 
         event.preventDefault();
     }
@@ -68,6 +110,17 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
         console.log(value)
         this.setState({selected_model: value})
     }
+
+    renderError = () => {
+        if (this?.state?.error) {
+            return (
+                <Alert variant="danger" onClose={() => this.setState({ error: undefined })} dismissible>
+                    <p>{this.state.error}</p>
+                </Alert>
+            );
+        }
+        return <div></div>;
+    };
 
     render() {
         return (
@@ -86,9 +139,21 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
                         <input className="translate-btn" type="submit" value="Translate" />
                     </form>
                 </div>
-                <Playlist
-                    items={this.props.items}
-                />
+                <div className="container mt-3">
+                    <div className="d-flex justify-content-center mb-3">
+                        <ScaleLoader
+                            css={override}
+                            height={20}
+                            width={4}
+                            radius={2}
+                            margin={2}
+                            color={'#0be881'}
+                            loading={this.state.loading}
+                        />
+                        <this.renderError />
+                    </div>
+                </div>
+                <Playlist items={this.props.items} />
             </section>
         );
     }
