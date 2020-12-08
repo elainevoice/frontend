@@ -13,7 +13,7 @@ import Playlist from '../../components/playlist/Playlist';
 import './StsPage.scss';
 
 import ModelSelector from '../../components/model_selector/ModelSelector';
-import {Model} from '../../providers/SpeechProvider'
+import { Model } from '../../providers/SpeechProvider';
 
 const override = css`
     display: block;
@@ -68,7 +68,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
     };
 
     handleSubmit = (fd: FormData) => {
-        let selectedModel : string = this.state.selected_model;
+        let selectedModel: string = this.state.selected_model;
         // Dont spam requests.
         if (this.state.loading === true) {
             return;
@@ -89,7 +89,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                     title,
                     url,
                     model: selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1),
-                    vocoder: 'GriffinLim'
+                    vocoder: 'GriffinLim',
                 });
 
                 this.setState({
@@ -139,9 +139,9 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
         }
     };
 
-    public setSelectedModelState = (value: string) =>{
-        this.setState({selected_model: value})
-    }
+    public setSelectedModelState = (value: string) => {
+        this.setState({ selected_model: value });
+    };
 
     renderError = () => {
         if (this?.state?.error) {
@@ -181,6 +181,11 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                             </div>
                         </Container>
                         <Container className="mt-3">
+                            <div className="container">
+                                <ModelSelector setSelectedModelState={this.setSelectedModelState} />
+                            </div>
+                        </Container>
+                        <Container className="mt-3">
                             <div className="container mt-3">
                                 <div className="d-flex justify-content-center mb-3">
                                     <ScaleLoader
@@ -197,10 +202,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
                             </div>
                         </Container>
                     </form>
-                    <ModelSelector setSelectedModelState={this.setSelectedModelState} />
-                    <Playlist
-                        items={this.props.items}
-                    />
+                    <Playlist items={this.props.items} />
                 </div>
             </section>
         );
