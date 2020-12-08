@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SpeechProvider from '../../providers/SpeechProvider';
 import { ScaleLoader } from 'react-spinners';
 import { Alert, Container } from 'react-bootstrap';
 import { css } from '@emotion/core';
@@ -8,9 +7,6 @@ import './TtsPage.scss';
 
 import { IPlayListItemProps } from '../../components/playlist/Playlist';
 import Playlist from '../../components/playlist/Playlist';
-
-import Playlist from "../../components/playlist/Playlist";
-
 import SpeechProvider from '../../providers/SpeechProvider';
 
 import ModelSelector from '../../components/model_selector/ModelSelector';
@@ -107,7 +103,6 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     }
 
     public setSelectedModelState = (value: string) =>{
-        console.log(value)
         this.setState({selected_model: value})
     }
 
