@@ -36,7 +36,7 @@ export default class SpeechProvider {
                 headers,
                 data,
             }).then((response: any) => {
-                observer.next({'audio': response.data, 'text':response.headers.text})
+                observer.next({'audio': response.data, 'text':response.headers.text});
             }).catch((error: any) => {
                 observer.error(error);
             })
