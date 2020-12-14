@@ -25,7 +25,7 @@ export interface IStsPageState {
     recordedBlob?: any;
     loading: boolean;
     error?: string;
-    selected_model: string;
+    selectedModel: string;
 }
 
 export default class StsPage extends Component<IStsPageProps, IStsPageState> {
@@ -34,7 +34,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
 
         this.state = {
             record: false,
-            selected_model: Model.LJSPEECH,
+            selectedModel: Model.WHISTLE,
             loading: false,
         };
     }
@@ -61,7 +61,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
     };
 
     handleSubmit = (fd: FormData) => {
-        let selectedModel: string = this.state.selected_model;
+        let selectedModel: string = this.state.selectedModel;
         // Dont spam requests.
         if (this.state.loading === true) {
             return;
@@ -131,7 +131,7 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
     };
 
     public setSelectedModelState = (value: string) => {
-        this.setState({ selected_model: value });
+        this.setState({ selectedModel: value });
     };
 
     renderError = () => {
