@@ -74,8 +74,8 @@ export default class StsPage extends Component<IStsPageProps, IStsPageState> {
 
         SpeechProvider.requestSpeechByAudio(fd, selectedModel as Model).subscribe(
             (result: any) => {
-                const url = window.URL.createObjectURL(new Blob([result]));
-                const title = new Date().toString();
+                const url = window.URL.createObjectURL(new Blob([result.audio]));
+                const title = result.text; 
                 this.props.newItemCallback({
                     title,
                     url,
