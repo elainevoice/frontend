@@ -62,7 +62,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
 
         SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
             (result: any) => {
-                const url = window.URL.createObjectURL(new Blob([result]));
+                const url = window.URL.createObjectURL(new Blob([result.audio]));
                 const title = savedText ?? new Date().toString();
                 this.props.newItemCallback({
                     title,
