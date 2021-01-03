@@ -53,7 +53,12 @@ export default class ModelSelector extends Component<IModelSelectorProps, any> {
                     </div>
         }
         else {
-            let options = this.state.data.map((model: string) => {
+            let options = this.state.data && this.state.data > 0 ?
+             this.state.data.map((model: string) => {
+                return (
+                    <option value={model} key={model}>{model.charAt(0).toUpperCase() + model.slice(1)}</option>
+                )
+            }): this.state.data.map((model: string) => {
                 return (
                     <option value={model} key={model}>{model.charAt(0).toUpperCase() + model.slice(1)}</option>
                 )
