@@ -37,7 +37,7 @@ export class App extends Component<any, IAppState> {
 
     render() {
         return (
-            <BrowserRouter>
+            <BrowserRouter basename="/">
                 <Switch>
                     <ReactRoute path="/" exact>
                         <Redirect to="/speech-to-speech" />
