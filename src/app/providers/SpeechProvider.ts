@@ -28,15 +28,20 @@ export default class SpeechProvider {
     }
 
     private static request(path: string, data: any, headers?: any): Observable<any> {
+        let API_ROUTE = process.env.REACT_APP_API
+        if (API_ROUTE === undefined){
+            API_ROUTE = '/api'
+        }
+
         return Observable.create((observer: any) => {
             Axios({
-                url: process.env.REACT_APP_API + path,
+                url: API_ROUTE + path,
                 method: 'POST',
                 responseType: 'blob',
                 headers,
                 data,
             }).then((response: any) => {
-                observer.next(response.data);
+                observer.next({'audio': response.data, 'text':response.headers.text});
             }).catch((error: any) => {
                 observer.error(error);
             })

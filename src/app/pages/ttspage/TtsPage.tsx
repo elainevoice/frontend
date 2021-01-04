@@ -20,7 +20,7 @@ export interface ITtsPageState {
     value: string;
     loading: boolean;
     error?: string;
-    selected_model: string;
+    selectedModel: string;
 }
 
 export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
@@ -35,7 +35,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
             value: '',
             loading: false,
             error: undefined,
-            selected_model: Model.LJSPEECH,
+            selectedModel: Model.WHISTLE,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -60,11 +60,11 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
             });
 
             let savedText = this.state.value;
-            let selectedModel: string = this.state.selected_model;
+            let selectedModel: string = this.state.selectedModel;
 
             SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
                 (result: any) => {
-                    const url = window.URL.createObjectURL(new Blob([result]));
+                    const url = window.URL.createObjectURL(new Blob([result.audio]));
                     const title = savedText ?? new Date().toString();
                     this.props.newItemCallback({
                         title,
@@ -96,7 +96,7 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     }
 
     public setSelectedModelState = (value: string) => {
-        this.setState({ selected_model: value });
+        this.setState({ selectedModel: value });
     };
 
     renderError = () => {
