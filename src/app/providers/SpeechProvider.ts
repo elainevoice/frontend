@@ -8,7 +8,8 @@ declare const process: {
 
 export enum Model {
     LJSPEECH = 'ljspeech',
-    WHISTLE = 'whistle'
+    WHISTLE = 'whistle',
+    DYSARTHRIA = 'dysarthria'
 }
 
 // This would be better as an injectable.
