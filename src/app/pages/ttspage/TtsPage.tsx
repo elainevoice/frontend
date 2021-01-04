@@ -49,47 +49,49 @@ export default class TtsPage extends Component<ITtsPageProps, ITtsPageState> {
     handleSubmit(event: any) {
         // Dont spam requests.
         if (this.state.loading === true) {
-            return;
-        }
+        } else if (!this.state.value) {
+            this.setState({
+                error: 'Cannot translate empty text.',
+            });
+        } else {
+            this.setState({
+                loading: true,
+                error: undefined,
+            });
 
-        this.setState({
-            loading: true,
-            error: undefined,
-        });
+            let savedText = this.state.value;
+            let selectedModel: string = this.state.selectedModel;
 
-        let savedText = this.state.value;
-        let selectedModel: string = this.state.selectedModel;
+            SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
+                (result: any) => {
+                    const url = window.URL.createObjectURL(new Blob([result.audio]));
+                    const title = savedText ?? new Date().toString();
+                    this.props.newItemCallback({
+                        title,
+                        url,
+                        model: selectedModel,
+                        vocoder: 'GriffinLim',
+                    });
 
-        SpeechProvider.requestSpeechByText(savedText, selectedModel as Model).subscribe(
-            (result: any) => {
-                const url = window.URL.createObjectURL(new Blob([result.audio]));
-                const title = savedText ?? new Date().toString();
-                this.props.newItemCallback({
-                    title,
-                    url,
-                    model: selectedModel,
-                    vocoder: 'GriffinLim'
-                });
+                    this.setState({
+                        loading: false,
+                    });
+                },
+                async (error: any) => {
+                    let errorStr = 'Something went wrong.';
+                    if (error?.response?.data?.text()) {
+                        const errorText = await error.response.data.text();
+                        let errorObj = JSON.parse(errorText);
+                        errorStr = errorObj['detail'];
+                    }
 
-                this.setState({
-                    loading: false,
-                });
-            },
-            async (error: any) => {
-                let errorStr = 'Something went wrong.';
-                if (error?.response?.data?.text()) {
-                    const errorText = await error.response.data.text();
-                    let errorObj = JSON.parse(errorText);
-                    errorStr = errorObj['detail'];
+                    this.setState({
+                        loading: false,
+                        error: errorStr,
+                    });
                 }
-
-                this.setState({
-                    loading: false,
-                    error: errorStr,
-                });
-            }
-        );
-
+            );
+        }
         event.preventDefault();
     }
 
