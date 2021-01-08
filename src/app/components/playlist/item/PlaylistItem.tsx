@@ -44,6 +44,9 @@ export default class PlaylistItem extends Component<IPlayListItemProps, IPlaylis
     }
 
     private showLimitedTitle = (title: string, limit: number): string => {
+        if (!title) {
+            title = new Date().toString();
+        }
         return title.length > limit ? title.substring(0, limit) + '...' : title;
     };
 
